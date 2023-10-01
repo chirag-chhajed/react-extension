@@ -1,5 +1,5 @@
 chrome.commands.onCommand.addListener((command) => {
-  if (command === "open-popup") {
+  if (command === "open_popup") {
     // Get the active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       // Check if a tab is found before sending the message
@@ -9,7 +9,7 @@ chrome.commands.onCommand.addListener((command) => {
           // Send a message to the content script to open the popup
           const tabId = tabs[0].id;
           if (tabId !== undefined) {
-            chrome.tabs.sendMessage(tabId, { command: "open-popup" });
+            chrome.tabs.sendMessage(tabId, { command: "open_popup" });
           } else {
             console.error("Tab ID is undefined.");
           }
@@ -22,3 +22,5 @@ chrome.commands.onCommand.addListener((command) => {
     });
   }
 });
+
+// console.log("background script running");

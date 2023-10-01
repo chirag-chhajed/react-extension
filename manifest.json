@@ -3,7 +3,7 @@
     "name": "CRXJS React Vite Example",
     "version": "1.0.0",
     "action": {
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "background": {
         "service_worker": "src/background.ts"
@@ -11,7 +11,7 @@
     "content_scripts": [
         {
             "js": [
-                "src/scripts/content.ts"
+                "src/scripts/content.tsx"
             ],
             "matches": [
                 "*://*/*"
@@ -19,10 +19,10 @@
         }
     ],
     "commands": {
-        "open-popup": {
+        "open_popup": {
             "suggested_key": {
-                "default": "Ctrl+Shift+Y",
-                "mac": "Command+Shift+Y"
+                "default": "Ctrl+Shift+1",
+                "mac": "Command+Shift+1"
             },
             "description": "Inject a script on the page"
         },
@@ -40,6 +40,20 @@
         "scripting",
         "favicon",
         "unlimitedStorage",
-        "storage"
+        "storage",
+        "identity"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "_favicon/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "extension_ids": [
+                "*"
+            ]
+        }
     ]
 }
