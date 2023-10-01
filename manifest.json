@@ -6,7 +6,7 @@
         "default_popup": "popup.html"
     },
     "background": {
-        "service_worker": "src/background.ts"
+        "service_worker": "src/background/background.ts"
     },
     "content_scripts": [
         {
