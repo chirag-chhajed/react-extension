@@ -1,9 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "CRXJS React Vite Example",
+    "name": "Swift Search",
     "version": "1.0.0",
     "action": {
         "default_popup": "popup.html"
+    },
+    "description": "A plain text description",
+    "icons": {
+        "16": "favicon-16x16.png",
+        "32": "favicon-32x32.png",
+        "128": "android-chrome-192x192.png"
     },
     "background": {
         "service_worker": "src/background/background.ts"
@@ -34,6 +40,9 @@
             "description": "Opens index.html"
         }
     },
+    "optional_permissions": [
+        "bookmarks"
+    ],
     "permissions": [
         "activeTab",
         "tabs",
@@ -55,5 +64,13 @@
                 "*"
             ]
         }
-    ]
+    ],
+    "oauth2": {
+        "client_id": "240104267874-0b34rikbkjoquq7pj5m4h5uq0csrah4m.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile"
+        ]
+    },
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtE+EGmGADP5toaAbVt6d2u+hG8ZxcC8HxEVWT+/tUUy0zaRLM1rbq6Vk0eZI0L75CloTzOFDgDJd7n/7QAwJB28jN8HryWNqucMDtXEZs6Jpon51fI9Q4vp+IK5Ut9jmwp+ijqUyyeNJ/3DGnymW7rrM7ZXrel5WJtT540mOGD7XBLp88LfK7Hce7qbs+LG2VJJtPGQOekWqrmXE54nPY7yKyx6/C0GzFQ5YfoeA81aa8r1wde9n2440grabCliBWcztCuYte8TDZzCRxydNhVZd9INL1KVVGLIeuAOaR9Gwq8szLGreczEgD+XXXKDHar/sUdI+lZ+me/RqDe2XtQIDAQAB"
 }

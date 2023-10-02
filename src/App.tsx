@@ -63,9 +63,59 @@ export default function Home() {
     });
   };
 
+  const googleLogin = () => {
+    chrome.runtime.sendMessage({ action: "googleLogin" }, (response) => {
+      console.log(response);
+      if (response.success) {
+        console.log("Data passage working");
+      } else {
+        console.log("Data passage not working");
+      }
+    });
+  };
+
+  const signOut = () => {
+    chrome.runtime.sendMessage({ action: "signOut" }, (response) => {
+      console.log(response);
+      if (response.success) {
+        console.log("Data passage working");
+      } else {
+        console.log("Data passage not working");
+      }
+    });
+  };
+
+  const getBookmarks = () => {
+    chrome.permissions.request(
+      {
+        permissions: ["bookmarks"],
+      },
+      (granted) => {
+        if (granted) {
+          chrome.bookmarks.getTree((bookmarkTree) => {
+            for (const node of bookmarkTree) {
+              console.log(
+                node.children?.map((child) =>
+                  child.children?.map((child) => child.url)
+                )
+              );
+              console.log(
+                node.children?.map((child) =>
+                  child.children?.map((child) => child.url)
+                ).length
+              );
+            }
+          });
+        } else {
+          console.log("Not granted");
+        }
+      }
+    );
+  };
+
   return (
     <div className="grid place-content-center">
-      <Button onClick={() => console.log("hello")}>Google Login</Button>
+      <Button onClick={() => googleLogin()}>Google Login</Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -99,6 +149,12 @@ export default function Home() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <Button onClick={() => signOut()}>SignOut</Button>
+      <div className="p-4">
+        <Button onClick={() => getBookmarks()} variant={"secondary"}>
+          Would you like to add your bookmarks too?
+        </Button>
+      </div>
     </div>
   );
 }
