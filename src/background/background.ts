@@ -34,11 +34,16 @@ get(child(dbRef, `/`))
     console.error(error);
   });
 const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User is signed in.");
-  } else {
-    console.log("No user is signed in.");
+
+chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+  if (request.action === "user") {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        sendResponse({ success: true, user: user });
+      } else {
+        sendResponse({ success: true, user: null });
+      }
+    });
   }
 });
 
@@ -68,11 +73,11 @@ const signIn = async () => {
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   console.log(request, "request");
   if (request.action === "googleLogin") {
-    console.log(request.data, "request.data");
+    // console.log(request.data, "request.data");
     signIn()
       .then((user) => {
         console.log(user, "user");
-        sendResponse({ success: true });
+        sendResponse({ success: true, user: user });
       })
       .catch((error) => {
         console.log(error, "error");
