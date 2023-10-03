@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { createUser } from "./createUser";
 import { getGoogleAuthCredential } from "./googleLogin";
+// import styles from "../index.css?inline";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
@@ -95,3 +96,16 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   }
   return true;
 });
+
+// const tabId = getActiveTab();
+// chrome.runtime.onMessage.addListener((request) => {
+//   if (request.action === "remove_css") {
+//     console.log("remove_css");
+//     if (tabId !== undefined) {
+//       chrome.scripting.removeCSS({
+//         target: { tabId: tabId },
+//         css: styles,
+//       });
+//     }
+//   }
+// });

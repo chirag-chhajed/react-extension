@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Dialog,
   DialogContent,
@@ -10,8 +11,18 @@ import { useEffect, useState } from "react";
 const ModalContainer = () => {
   const [open, setIsOpen] = useState(true);
 
+  const removeStyles = () => {
+    const style = document.querySelector(`style[data-id="custom-styles"]`);
+    console.debug("style", style);
+    if (style) {
+      style.remove();
+    }
+    // document.body.style.removeProperty("pointer-events");
+  };
+
   const closeDialog = () => {
     setIsOpen(false);
+    removeStyles();
   };
 
   // Add an event listener for the "keydown" event to close the dialog on ESC key press
@@ -33,7 +44,16 @@ const ModalContainer = () => {
     };
   }, [open]);
   return (
-    <Dialog defaultOpen={open}>
+    <Dialog
+      defaultOpen
+      open={open}
+      onOpenChange={(e) => {
+        console.log("state changed of dialog");
+        if (e === false) {
+          closeDialog();
+        }
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure absolutely sure?</DialogTitle>

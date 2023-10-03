@@ -1,25 +1,46 @@
 import { createRoot } from "react-dom/client";
-import "../index.css";
 import ModalContainer from "@/components/Modal";
+import styles from "../index.css?inline";
 
 console.log("Hey I am running from a chrome extension, do you know it");
 
 function createModal() {
-  const modalContainer = document.createElement("div");
-  // modalContainer.className = "absolute top-0 left-0 z-50 w-full h-full";
-  modalContainer.id = "customModal";
+  let modalContainer = document.getElementById("customModal");
 
-  document.body.appendChild(modalContainer);
+  if (!modalContainer) {
+    modalContainer = document.createElement("div");
+    modalContainer.id = "customModal";
+    document.body.appendChild(modalContainer);
+  }
 
-  createRoot(document.body.querySelector("#customModal")!).render(
-    <ModalContainer />
-  );
+  const modalRoot = createRoot(modalContainer); // Create a root within the customModal div
+  if (!modalRoot) return console.log("modalRoot not found");
+  modalRoot.render(<ModalContainer />);
 }
+
+document.addEventListener("keydown", (event: KeyboardEvent) => {
+  if (event.key === "Escape") {
+    console.log("escape key pressed");
+    const modalContainer = document.getElementById("customModal");
+    if (modalContainer) {
+      modalContainer.remove();
+    }
+  }
+});
 
 chrome.runtime.onMessage.addListener((message) => {
   console.log(message, "message");
   if (message.command === "open_popup") {
     createModal();
     console.log("open popup");
+  }
+});
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.command === "insert_css") {
+    const style = document.createElement("style");
+    style.setAttribute("data-id", "custom-styles");
+    style.innerHTML = styles;
+    document.head.appendChild(style);
   }
 });
