@@ -3,6 +3,9 @@ import { atom, useAtom } from "jotai";
 import LoginForm from "./components/LoginForm";
 import { User } from "firebase/auth";
 import { useEffect } from "react";
+import Header from "./components/Header";
+import SiteCard from "./components/SiteCard";
+import { Toaster } from "sonner";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const userAuthAtom = atom<User | null>(null);
@@ -66,7 +69,17 @@ export default function Home() {
   }
 
   return (
-    <div className="grid place-content-center">
+    <div className="container">
+      <Header />
+      <main className="flex gap-4 p-4 bg-secondary text-secondary-foreground justify-evenly">
+        {Array(10)
+          .fill(0)
+          .map(() => (
+            <SiteCard />
+          ))}
+        {/* <SiteCard/> */}
+      </main>
+
       <div className="p-4">
         <Button onClick={() => getBookmarks()} variant={"secondary"}>
           Would you like to add your bookmarks too?
@@ -76,6 +89,7 @@ export default function Home() {
           <Button onClick={() => signOut()}>SignOut</Button>
         </div>
       </div>
+      <Toaster richColors />
     </div>
   );
 }
