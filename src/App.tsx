@@ -9,6 +9,7 @@ import SettingDropDown from "@/components/SettingDropDown";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import SearchCommand from "@/components/SearchCommand";
 
 // Icons
 import { DoorOpen, SettingsIcon } from "lucide-react";
@@ -21,7 +22,6 @@ import { User } from "firebase/auth";
 
 // Utility
 import { toast } from "sonner";
-import SearchCommand from "./components/SearchCommand";
 
 export const userAuthAtom = atom<User | null>(null);
 export const commandState = atom<boolean>(false);
