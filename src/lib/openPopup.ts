@@ -1,5 +1,3 @@
-// import styles from "../index.css?inline";
-
 export function getActiveTab(): number | void {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs.length > 0) {
@@ -31,10 +29,6 @@ function openPopup() {
             if (tabId !== undefined) {
               chrome.tabs.sendMessage(tabId, { command: "open_popup" });
               chrome.tabs.sendMessage(tabId, { command: "insert_css" });
-              // chrome.scripting.insertCSS({
-              //   target: { tabId: tabId },
-              //   css: styles,
-              // });
             } else {
               console.error("Tab ID is undefined.");
             }
@@ -49,4 +43,13 @@ function openPopup() {
   });
 }
 
-export { openPopup };
+function openDashboard() {
+  chrome.commands.onCommand.addListener(async (command) => {
+    if (command === "open_index") {
+      // Get the active tab
+      chrome.tabs.create({ url: "index.html" });
+    }
+  });
+}
+
+export { openPopup, openDashboard };

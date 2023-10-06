@@ -1,15 +1,14 @@
-import { openPopup } from "./openPopup";
+import { openPopup, openDashboard } from "@/lib/openPopup";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
   signInWithCredential,
   signOut,
 } from "firebase/auth";
-import { createUser } from "./createUser";
-import { getGoogleAuthCredential } from "./googleLogin";
-// import styles from "../index.css?inline";
+import { createUser } from "@/lib/createUser";
+import { getGoogleAuthCredential } from "@/lib/googleLogin";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
@@ -22,43 +21,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const dbRef = ref(getDatabase(app));
-get(child(dbRef, `/`))
-  .then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-const auth = getAuth();
+export const db = getFirestore(app);
 
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  if (request.action === "user") {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        sendResponse({ success: true, user: user });
-      } else {
-        sendResponse({ success: true, user: null });
-      }
-    });
-  }
-});
+const auth = getAuth(app);
 
+// commands
 openPopup();
+openDashboard();
 
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  console.log(request, "request");
-  if (request.action === "client") {
-    console.log(request.data, "request.data");
-    createUser(auth, request.data.email, request.data.password);
-    sendResponse({ success: true });
-  }
-  return true;
-});
 const signIn = async () => {
   try {
     const credential = await getGoogleAuthCredential();
@@ -72,40 +42,47 @@ const signIn = async () => {
 };
 
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  console.log(request, "request");
-  if (request.action === "googleLogin") {
-    // console.log(request.data, "request.data");
-    signIn()
-      .then((user) => {
-        console.log(user, "user");
-        sendResponse({ success: true, user: user });
-      })
-      .catch((error) => {
-        console.log(error, "error");
+  switch (request.action) {
+    case "user":
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          sendResponse({ success: true, user: user });
+        } else {
+          sendResponse({ success: true, user: null });
+        }
       });
-    // sendResponse({ success: true });
+      break;
+
+    case "client":
+      console.log(request, "request");
+      console.log(request.data, "request.data");
+      createUser(auth, request.data.email, request.data.password);
+      sendResponse({ success: true });
+      break;
+
+    case "googleLogin":
+      console.log(request, "request");
+      // console.log(request.data, "request.data");
+      signIn()
+        .then((user) => {
+          console.log(user, "user");
+          sendResponse({ success: true, user: user });
+        })
+        .catch((error) => {
+          console.log(error, "error");
+        });
+      // sendResponse({ success: true });
+      break;
+
+    case "signOut":
+      console.log(request, "request");
+      signOut(auth);
+      sendResponse({ success: true });
+      break;
+
+    default:
+      console.log(request, "request");
+      break;
   }
   return true;
 });
-
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  console.log(request, "request");
-  if (request.action === "signOut") {
-    signOut(auth);
-    sendResponse({ success: true });
-  }
-  return true;
-});
-
-// const tabId = getActiveTab();
-// chrome.runtime.onMessage.addListener((request) => {
-//   if (request.action === "remove_css") {
-//     console.log("remove_css");
-//     if (tabId !== undefined) {
-//       chrome.scripting.removeCSS({
-//         target: { tabId: tabId },
-//         css: styles,
-//       });
-//     }
-//   }
-// });
