@@ -1,6 +1,11 @@
 import { openPopup, openDashboard } from "@/lib/openPopup";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  // getFirestore,
+  // getDocsFromCache,
+  initializeFirestore,
+  CACHE_SIZE_UNLIMITED,
+} from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
@@ -21,7 +26,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+export const db = initializeFirestore(app, {
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+});
 
 const auth = getAuth(app);
 
