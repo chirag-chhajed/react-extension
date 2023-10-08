@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import HabitForm from "./HabitForm";
+import SiteForm from "@/components/SiteForm";
 
 const Header = () => {
   const [, setOpen] = useAtom(commandState);
@@ -30,7 +30,7 @@ const Header = () => {
               Add a new site to your Swift Search
             </DialogDescription>
           </DialogHeader>
-          <HabitForm />
+          <SiteForm />
         </DialogContent>
       </Dialog>
       <Button onClick={() => setOpen(true)} size={"icon"}>
