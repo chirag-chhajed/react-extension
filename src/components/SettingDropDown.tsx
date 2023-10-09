@@ -17,12 +17,7 @@ const SettingDropDown = ({
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        {settingButton}
-        {/* <Button className="" size={"icon"}>
-          <SettingsIcon />
-        </Button> */}
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{settingButton}</DropdownMenuTrigger>
       <DropdownMenuContent align="start" loop sideOffset={-50} alignOffset={50}>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -30,9 +25,6 @@ const SettingDropDown = ({
           Profile
         </DropdownMenuItem>
         {signout}
-        {/* <DropdownMenuItem onClick={() => signOut()}>
-          <DoorOpen /> Log Out
-        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,10 +1,14 @@
 import { openPopup, openDashboard } from "@/lib/openPopup";
 import { initializeApp } from "firebase/app";
 import {
-  // getFirestore,
+  CACHE_SIZE_UNLIMITED,
+  Timestamp,
+  addDoc,
+  collection,
   // getDocsFromCache,
   initializeFirestore,
-  CACHE_SIZE_UNLIMITED,
+  persistentLocalCache,
+  persistentSingleTabManager,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -14,7 +18,6 @@ import {
 } from "firebase/auth";
 import { createUser } from "@/lib/createUser";
 import { getGoogleAuthCredential } from "@/lib/googleLogin";
-
 const firebaseConfig = {
   apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
   authDomain: "swift-search-chrome-extension.firebaseapp.com",
@@ -27,8 +30,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = initializeFirestore(app, {
-  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+  localCache: persistentLocalCache({
+    tabManager: persistentSingleTabManager({
+      // forceOwnership for web worker
+      forceOwnership: !globalThis.localStorage,
+    }),
+    cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+  }),
 });
+const userRef = collection(db, "users");
 
 const auth = getAuth(app);
 
@@ -85,6 +95,26 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       console.log(request, "request");
       signOut(auth);
       sendResponse({ success: true });
+      break;
+    case "ADD_SITE":
+      console.log(userRef.path, "request");
+
+      addDoc(userRef, {
+        title: request.payload.title,
+        url: request.payload.url,
+        user_id: request.payload.user_id,
+        created_at: Timestamp.now(),
+        updated_at: Timestamp.now(),
+        isPin: request.payload.isPin,
+        favicon: request.payload.favicon ?? "",
+        description: request.payload.description ?? "",
+      })
+        .then((res) => {
+          sendResponse({ success: true, res: res });
+        })
+        .catch((err) => {
+          sendResponse({ success: false, err: err });
+        });
       break;
 
     default:

@@ -48,8 +48,6 @@
         "tabs",
         "scripting",
         "favicon",
-        "unlimitedStorage",
-        "storage",
         "identity"
     ],
     "web_accessible_resources": [

@@ -15,13 +15,19 @@ import {
   boolean,
   minLength,
   url as valibotUrl,
-  safeParse /*Output*/,
+  safeParse,
+  Output,
   optional,
 } from "valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
+import { toast } from "sonner";
+import { userAuthAtom } from "@/App";
+import { faviconURL } from "@/lib/getFaviconUrl";
+import { useAtom } from "jotai";
 // import { ChangeEvent } from "react";
 
 const SiteSchema = object({
@@ -31,55 +37,15 @@ const SiteSchema = object({
   isPin: boolean(),
 });
 
-// const onSubmit = (data: SiteData) => {
-//   console.log(data);
-// };
-async function fetchWithTimeout(url: string, timeout: number) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-  console;
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    return response;
-  } catch (error) {
-    clearTimeout(timeoutId);
-    throw error;
-  }
-}
-async function fetchTitleAndDescription(url: string) {
-  try {
-    const response = await fetchWithTimeout(url, 10000); // Timeout after 10 seconds
-    console.log(response);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const html = await response.text();
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-
-    const title = doc.querySelector("title")?.textContent;
-    const metaDescription = doc.querySelector('meta[name="description"]');
-    const description = metaDescription
-      ? metaDescription.getAttribute("content")
-      : "";
-    console.log(title, description);
-    return { title, description };
-  } catch (error) {
-    console.error("Error fetching or parsing content:", error);
-
-    return { title: "", description: "" };
-  }
-}
+type SiteData = Output<typeof SiteSchema>;
 
 const SiteForm = () => {
-  //   type SiteData = Output<typeof SiteSchema>;
   const [url, setUrl] = useState("");
   const [debouncedUrl, setDebouncedUrl] = useState("");
+  const [user] = useAtom(userAuthAtom);
+  console.log(user);
 
-  console.log(url, debouncedUrl);
+  // console.log(url, debouncedUrl);
   const form = useForm({
     defaultValues: {
       title: "",
@@ -129,15 +95,32 @@ const SiteForm = () => {
     return () => clearTimeout(debouncedTimeout);
   }, [debouncedUrl]);
 
+  const onSubmit = (data: SiteData): void => {
+    chrome.runtime.sendMessage(
+      {
+        action: "ADD_SITE",
+        payload: {
+          ...data,
+          url: debouncedUrl,
+          user_id: user?.uid,
+          favicon: faviconURL(data.url),
+        },
+      },
+      (response) => {
+        if (response.success) {
+          console.log("data added to db");
+          form.reset();
+          toast.success("Site Added");
+        } else {
+          toast.error("Error Adding Site");
+        }
+      }
+    );
+  };
+
   return (
     <Form {...form}>
-      <form
-        className="space-y-4"
-        onSubmit={form.handleSubmit((e) => {
-          console.log(e);
-          form.reset();
-        })}
-      >
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="url"
