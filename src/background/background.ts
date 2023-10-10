@@ -1,14 +1,14 @@
 import { openPopup, openDashboard } from "@/lib/openPopup";
-import { initializeApp } from "firebase/app";
+import { initializeApp, setLogLevel } from "firebase/app";
 import {
   CACHE_SIZE_UNLIMITED,
   Timestamp,
-  addDoc,
   collection,
-  // getDocsFromCache,
+  // getFirestore,
   initializeFirestore,
   persistentLocalCache,
   persistentSingleTabManager,
+  addDoc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -18,6 +18,11 @@ import {
 } from "firebase/auth";
 import { createUser } from "@/lib/createUser";
 import { getGoogleAuthCredential } from "@/lib/googleLogin";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import XMLHttpRequest from "xhr-shim";
+
+globalThis["XMLHttpRequest"] = XMLHttpRequest;
 const firebaseConfig = {
   apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
   authDomain: "swift-search-chrome-extension.firebaseapp.com",
@@ -28,8 +33,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setLogLevel("debug");
 
 export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
   localCache: persistentLocalCache({
     tabManager: persistentSingleTabManager({
       // forceOwnership for web worker
@@ -38,7 +45,9 @@ export const db = initializeFirestore(app, {
     cacheSizeBytes: CACHE_SIZE_UNLIMITED,
   }),
 });
-const userRef = collection(db, "users");
+
+// export const db = getFirestore(app);
+const siteRef = collection(db, "sites");
 
 const auth = getAuth(app);
 
@@ -97,24 +106,28 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     case "ADD_SITE":
-      console.log(userRef.path, "request");
-
-      addDoc(userRef, {
-        title: request.payload.title,
-        url: request.payload.url,
-        user_id: request.payload.user_id,
-        created_at: Timestamp.now(),
-        updated_at: Timestamp.now(),
-        isPin: request.payload.isPin,
-        favicon: request.payload.favicon ?? "",
-        description: request.payload.description ?? "",
-      })
-        .then((res) => {
-          sendResponse({ success: true, res: res });
+      console.log(request, "request");
+      new Promise((resolve, reject) => {
+        addDoc(siteRef, {
+          title: request.payload.title,
+          url: request.payload.url,
+          user_id: request.payload.user_id,
+          created_at: Timestamp.now(),
+          updated_at: Timestamp.now(),
+          isPin: request.payload.isPin,
+          favicon: request.payload.favicon ?? "",
+          description: request.payload.description ?? "",
         })
-        .catch((err) => {
-          sendResponse({ success: false, err: err });
-        });
+          .then(() => {
+            sendResponse({ success: true });
+            console.log("success in adding doc");
+            resolve(true); // Resolve the promise to indicate success
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error); // Reject the promise to indicate an error
+          });
+      });
       break;
 
     default:

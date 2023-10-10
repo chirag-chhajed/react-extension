@@ -48,7 +48,9 @@
         "tabs",
         "scripting",
         "favicon",
-        "identity"
+        "identity",
+        "storage",
+        "unlimitedStorage"
     ],
     "web_accessible_resources": [
         {
@@ -63,6 +65,11 @@
             ]
         }
     ],
+    "externally_connectable": {
+        "matches": [
+            "https://firestore.googleapis.com/*"
+        ]
+    },
     "oauth2": {
         "client_id": "240104267874-1dg554q34n2br2njhpffhjb5npo7sfj8.apps.googleusercontent.com",
         "scopes": [
