@@ -14,6 +14,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
+import { deleteDoc } from "firebase/firestore";
+import { getDocumentRef } from "@/background/background";
 
 interface CardComponentProps {
   dataId: string;
@@ -22,6 +24,16 @@ interface CardComponentProps {
   title: string;
   description: string;
 }
+
+const deleteingSite = async (documentId: string) => {
+  try {
+    await deleteDoc(getDocumentRef("sites", documentId));
+    toast.success("Site deleted");
+  } catch (error) {
+    toast.error("Error deleting site");
+    console.error(error);
+  }
+};
 
 const CardComponent = ({
   dataId,
@@ -70,7 +82,7 @@ const CardComponent = ({
         </CardHeader>
         <CardFooter className="flex justify-between">
           <Button
-            onClick={() => toast.error("deleted")}
+            onClick={() => deleteingSite(dataId)}
             className="hover:bg-red-500/90 "
             size={"icon"}
           >

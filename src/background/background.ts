@@ -7,6 +7,7 @@ import {
   persistentLocalCache,
   CACHE_SIZE_UNLIMITED,
   persistentSingleTabManager,
+  doc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -44,7 +45,10 @@ export const db = initializeFirestore(app, {
 export const siteRef = collection(db, "sites");
 
 const auth = getAuth(app);
-// const analytics = getAnalytics(app);
+
+export function getDocumentRef(collectionName: string, documentId: string) {
+  return doc(db, collectionName, documentId);
+}
 
 // commands
 openPopup();

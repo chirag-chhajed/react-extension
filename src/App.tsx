@@ -146,7 +146,6 @@ export default function Home() {
                 url={site.data.url}
               />
             ))}
-          {/* {JSON.stringify(sites)} */}
         </main>
       </div>
       <SearchCommand />
