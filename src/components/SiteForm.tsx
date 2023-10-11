@@ -1,14 +1,9 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+// React and Hooks
+import { useEffect, useState } from "react";
+
+// Form and Form Validation
 import { useForm } from "react-hook-form";
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import {
   object,
   string,
@@ -19,16 +14,35 @@ import {
   Output,
   optional,
 } from "valibot";
-import { valibotResolver } from "@hookform/resolvers/valibot";
+
+// UI Components
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
+
+// External Libraries
 import { toast } from "sonner";
-import { userAuthAtom } from "@/App";
-import { faviconURL } from "@/lib/getFaviconUrl";
 import { useAtom } from "jotai";
-// import { ChangeEvent } from "react";
+import { addDoc, Timestamp } from "firebase/firestore";
+
+// Custom Utilities
+import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
+import { faviconURL } from "@/lib/getFaviconUrl";
+
+// Authentication and State Management
+import { userAuthAtom } from "@/App";
+
+// Analytics and Firestore
+import { siteRef } from "@/background/background";
 
 const SiteSchema = object({
   title: string([minLength(5, "title must have at least 6 characters")]),
@@ -43,9 +57,7 @@ const SiteForm = () => {
   const [url, setUrl] = useState("");
   const [debouncedUrl, setDebouncedUrl] = useState("");
   const [user] = useAtom(userAuthAtom);
-  console.log(user);
 
-  // console.log(url, debouncedUrl);
   const form = useForm({
     defaultValues: {
       title: "",
@@ -82,8 +94,13 @@ const SiteForm = () => {
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);
             response.then((res) => {
-              form.setValue("title", res.title ?? "");
-              form.setValue("description", res.description ?? "");
+              const title = form.getValues("title");
+              const description = form.getValues("description");
+              form.setValue("title", title + " " + res.title ?? "");
+              form.setValue(
+                "description",
+                description + " " + res.description ?? ""
+              );
             });
           }
         } catch (error) {
@@ -96,26 +113,23 @@ const SiteForm = () => {
   }, [debouncedUrl]);
 
   const onSubmit = (data: SiteData): void => {
-    chrome.runtime.sendMessage(
-      {
-        action: "ADD_SITE",
-        payload: {
-          ...data,
-          url: debouncedUrl,
-          user_id: user?.uid,
-          favicon: faviconURL(data.url),
-        },
-      },
-      (response) => {
-        if (response.success) {
-          console.log("data added to db");
-          form.reset();
-          toast.success("Site Added");
-        } else {
-          toast.error("Error Adding Site");
-        }
-      }
-    );
+    addDoc(siteRef, {
+      ...data,
+      url: debouncedUrl,
+      user_id: user?.uid,
+      favicon: faviconURL(data.url),
+      created_at: Timestamp.now(),
+      updated_at: Timestamp.now(),
+    })
+      .then((res) => {
+        console.log("added to db", res);
+        toast.success("Site Added");
+        form.reset();
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to add the site");
+      });
   };
 
   return (
@@ -137,6 +151,7 @@ const SiteForm = () => {
                   }}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

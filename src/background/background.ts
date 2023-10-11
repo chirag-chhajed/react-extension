@@ -1,14 +1,12 @@
 import { openPopup, openDashboard } from "@/lib/openPopup";
 import { initializeApp, setLogLevel } from "firebase/app";
 import {
-  CACHE_SIZE_UNLIMITED,
-  Timestamp,
   collection,
   // getFirestore,
   initializeFirestore,
   persistentLocalCache,
+  CACHE_SIZE_UNLIMITED,
   persistentSingleTabManager,
-  addDoc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -18,11 +16,7 @@ import {
 } from "firebase/auth";
 import { createUser } from "@/lib/createUser";
 import { getGoogleAuthCredential } from "@/lib/googleLogin";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import XMLHttpRequest from "xhr-shim";
 
-globalThis["XMLHttpRequest"] = XMLHttpRequest;
 const firebaseConfig = {
   apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
   authDomain: "swift-search-chrome-extension.firebaseapp.com",
@@ -32,7 +26,7 @@ const firebaseConfig = {
   appId: "1:240104267874:web:40a3c410f8edecf9a1713b",
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 setLogLevel("debug");
 
 export const db = initializeFirestore(app, {
@@ -47,7 +41,7 @@ export const db = initializeFirestore(app, {
 });
 
 // export const db = getFirestore(app);
-const siteRef = collection(db, "sites");
+export const siteRef = collection(db, "sites");
 
 const auth = getAuth(app);
 
@@ -59,6 +53,7 @@ const signIn = async () => {
   try {
     const credential = await getGoogleAuthCredential();
     const result = await signInWithCredential(auth, credential);
+
     console.log(result.user, "user");
     return result.user;
   } catch (e) {
@@ -104,30 +99,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       console.log(request, "request");
       signOut(auth);
       sendResponse({ success: true });
-      break;
-    case "ADD_SITE":
-      console.log(request, "request");
-      new Promise((resolve, reject) => {
-        addDoc(siteRef, {
-          title: request.payload.title,
-          url: request.payload.url,
-          user_id: request.payload.user_id,
-          created_at: Timestamp.now(),
-          updated_at: Timestamp.now(),
-          isPin: request.payload.isPin,
-          favicon: request.payload.favicon ?? "",
-          description: request.payload.description ?? "",
-        })
-          .then(() => {
-            sendResponse({ success: true });
-            console.log("success in adding doc");
-            resolve(true); // Resolve the promise to indicate success
-          })
-          .catch((error) => {
-            console.error(error);
-            reject(error); // Reject the promise to indicate an error
-          });
-      });
       break;
 
     default:

@@ -19,7 +19,6 @@ import { atom, useAtom } from "jotai";
 
 // Firebase Authentication
 import { User } from "firebase/auth";
-
 // Utility
 import { toast } from "sonner";
 
