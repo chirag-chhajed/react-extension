@@ -92,13 +92,8 @@ const EditForm = ({
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);
             response.then((res) => {
-              const title = form.getValues("title");
-              const description = form.getValues("description");
-              form.setValue("title", title + " " + res.title ?? "");
-              form.setValue(
-                "description",
-                description + " " + res.description ?? ""
-              );
+              form.setValue("title", res.title ?? "");
+              form.setValue("description", res.description ?? "");
             });
           }
         } catch (error) {

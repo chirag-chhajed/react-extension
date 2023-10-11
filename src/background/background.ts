@@ -31,7 +31,6 @@ export const app = initializeApp(firebaseConfig);
 // setLogLevel("debug");
 
 export const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
   localCache: persistentLocalCache({
     tabManager: persistentSingleTabManager({
       // forceOwnership for web worker
