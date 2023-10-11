@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import LoginForm from "@/components/LoginForm";
 import Header from "@/components/Header";
-import SiteCard from "@/components/SiteCard";
+// import SiteCard from "@/components/SiteCard";
 import SettingDropDown from "@/components/SettingDropDown";
 
 // UI Components
@@ -21,20 +21,34 @@ import { atom, useAtom } from "jotai";
 import { User } from "firebase/auth";
 // Utility
 import { toast } from "sonner";
+import { DocumentData, getDocs, query, where } from "firebase/firestore";
+import { siteRef } from "./background/background";
+import CardComponent from "./components/SiteCard";
 
 export const userAuthAtom = atom<User | null>(null);
 export const commandState = atom<boolean>(false);
+const sitesAtom = atom<DocumentData | []>([]);
+
+type SiteData = {
+  title: string;
+  description: string;
+  favicon: string;
+  url: string;
+};
+interface siteType {
+  id: string;
+  data: SiteData;
+}
 
 export default function Home() {
   const [user, setUser] = useAtom(userAuthAtom);
   const [, setOpen] = useAtom(commandState);
+  const [sites, setSites] = useAtom(sitesAtom);
 
   useEffect(() => {
-    console.log("User", user);
     chrome.runtime.sendMessage({ action: "user" }, (response) => {
       console.log(response);
       if (response.success) {
-        console.log("Data passage working");
         setUser(response.user);
       } else {
         console.log("Data passage not working");
@@ -44,9 +58,37 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        console.log(user.uid, "uid");
+        try {
+          const res = query(siteRef, where("user_id", "==", user.uid));
+          const querySnapshot = await getDocs(res);
+
+          const sitesData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+
+          // Set the sites state with the array of data
+          setSites(sitesData);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    if (user) {
+      fetchData(); // Call the async function to fetch data when user is defined
+    }
+  }, [user]);
+
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        console.log(sites);
+
         setOpen((open) => !open);
       }
     };
@@ -61,6 +103,7 @@ export default function Home() {
       if (response.success) {
         console.log("Data passage working");
         toast.success("Signed Out");
+
         setUser(null);
       } else {
         toast.error("Error Signing Out");
@@ -92,11 +135,18 @@ export default function Home() {
           />
         </aside>
         <main className="bg-secondary text-secondary-foreground p-4 grid grid-cols-[repeat(auto-fill,minmax(250px,300px))] auto-rows-fr gap-6 justify-evenly overflow-y-auto ml-20 w-full justify-items-center">
-          {Array(10)
-            .fill(0)
-            .map((_, i) => (
-              <SiteCard key={i} />
+          {sites.length > 0 &&
+            sites.map((site: siteType) => (
+              <CardComponent
+                key={site.id}
+                dataId={site.id}
+                title={site.data.title}
+                description={site.data.description}
+                favicon={site.data.favicon}
+                url={site.data.url}
+              />
             ))}
+          {/* {JSON.stringify(sites)} */}
         </main>
       </div>
       <SearchCommand />

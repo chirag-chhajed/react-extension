@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Edit3, Facebook, TrashIcon } from "lucide-react";
+import { Edit3, TrashIcon } from "lucide-react";
 import {
   Card,
   CardDescription,
@@ -15,36 +15,55 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
-const CardComponent = () => {
+interface CardComponentProps {
+  dataId: string;
+  favicon: string;
+  url: string;
+  title: string;
+  description: string;
+}
+
+const CardComponent = ({
+  dataId,
+  favicon,
+  url,
+  title,
+  description,
+}: CardComponentProps) => {
   return (
     <TooltipProvider>
-      <Card data-id={"hello"} className="max-w-[300px] min-w-[250px]">
+      <Card data-id={dataId} className="max-w-[300px] min-w-[250px]">
         <CardHeader>
           <CardTitle className="flex flex-col items-start gap-2" tabIndex={-1}>
-            <Facebook className="" tabIndex={-1} />
+            <img
+              src={favicon}
+              alt="favicon"
+              height={32}
+              width={32}
+              className="w-8 h-8 aspect-square"
+            />
+            {/* <Facebook className="" tabIndex={-1} /> */}
             <Tooltip>
               <TooltipTrigger>
                 <a
                   className="underline-offset-4 hover:underline"
-                  href="https://www.facebook.com/"
+                  href={url}
                   target="_blank"
                 >
-                  Facebook
+                  {title}
                 </a>
               </TooltipTrigger>
-              <TooltipContent>Facebook</TooltipContent>
+              <TooltipContent>{title}</TooltipContent>
             </Tooltip>
           </CardTitle>
 
           <Tooltip>
             <TooltipTrigger>
               <CardDescription className="text-left line-clamp-3" tabIndex={-1}>
-                Log in to Facebook to start sharing and connecting with your
-                friends, family and people you know. lore
+                {description}
               </CardDescription>
               <TooltipContent className="w-[200px]">
-                Log in to Facebook to start sharing and connecting with your
-                friends, family and people you know. lore
+                {description}
               </TooltipContent>
             </TooltipTrigger>
           </Tooltip>

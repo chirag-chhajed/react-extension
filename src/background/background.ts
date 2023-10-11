@@ -1,5 +1,5 @@
 import { openPopup, openDashboard } from "@/lib/openPopup";
-import { initializeApp, setLogLevel } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import {
   collection,
   // getFirestore,
@@ -27,7 +27,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-setLogLevel("debug");
+// setLogLevel("debug");
 
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
@@ -44,6 +44,7 @@ export const db = initializeFirestore(app, {
 export const siteRef = collection(db, "sites");
 
 const auth = getAuth(app);
+// const analytics = getAnalytics(app);
 
 // commands
 openPopup();

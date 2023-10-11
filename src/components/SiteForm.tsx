@@ -112,24 +112,24 @@ const SiteForm = () => {
     return () => clearTimeout(debouncedTimeout);
   }, [debouncedUrl]);
 
-  const onSubmit = (data: SiteData): void => {
-    addDoc(siteRef, {
-      ...data,
-      url: debouncedUrl,
-      user_id: user?.uid,
-      favicon: faviconURL(data.url),
-      created_at: Timestamp.now(),
-      updated_at: Timestamp.now(),
-    })
-      .then((res) => {
-        console.log("added to db", res);
-        toast.success("Site Added");
-        form.reset();
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to add the site");
+  const onSubmit = async (data: SiteData): Promise<void> => {
+    try {
+      const res = await addDoc(siteRef, {
+        ...data,
+        url: debouncedUrl,
+        user_id: user?.uid,
+        favicon: faviconURL(data.url),
+        created_at: Timestamp.now(),
+        updated_at: Timestamp.now(),
       });
+
+      console.log("added to db", res);
+      toast.success("Site Added");
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add the site");
+    }
   };
 
   return (
