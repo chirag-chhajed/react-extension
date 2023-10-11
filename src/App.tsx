@@ -34,6 +34,7 @@ type SiteData = {
   description: string;
   favicon: string;
   url: string;
+  isPin: boolean;
 };
 interface siteType {
   id: string;
@@ -144,6 +145,7 @@ export default function Home() {
                 description={site.data.description}
                 favicon={site.data.favicon}
                 url={site.data.url}
+                isPin={site.data.isPin}
               />
             ))}
         </main>

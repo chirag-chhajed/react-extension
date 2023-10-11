@@ -13,9 +13,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { deleteDoc } from "firebase/firestore";
 import { getDocumentRef } from "@/background/background";
+import EditForm from "./EditForm";
 
 interface CardComponentProps {
   dataId: string;
@@ -23,6 +32,7 @@ interface CardComponentProps {
   url: string;
   title: string;
   description: string;
+  isPin: boolean;
 }
 
 const deleteingSite = async (documentId: string) => {
@@ -40,6 +50,7 @@ const CardComponent = ({
   favicon,
   url,
   title,
+  isPin,
   description,
 }: CardComponentProps) => {
   return (
@@ -88,9 +99,26 @@ const CardComponent = ({
           >
             <TrashIcon />
           </Button>
-          <Button size={"icon"}>
-            <Edit3 />
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size={"icon"}>
+                <Edit3 />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Site</DialogTitle>
+                <DialogDescription>Edit the site</DialogDescription>
+              </DialogHeader>
+              <EditForm
+                dataId={dataId}
+                description={description}
+                url={url}
+                title={title}
+                isPin={isPin}
+              />
+            </DialogContent>
+          </Dialog>
         </CardFooter>
       </Card>
     </TooltipProvider>
