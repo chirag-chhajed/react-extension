@@ -2,11 +2,11 @@ import { openPopup, openDashboard } from "@/lib/openPopup";
 import { initializeApp } from "firebase/app";
 import {
   collection,
-  // getFirestore,
-  initializeFirestore,
-  persistentLocalCache,
-  CACHE_SIZE_UNLIMITED,
-  persistentSingleTabManager,
+  getFirestore,
+  // initializeFirestore,
+  // persistentLocalCache,
+  // CACHE_SIZE_UNLIMITED,
+  // persistentSingleTabManager,
   doc,
 } from "firebase/firestore";
 import {
@@ -30,17 +30,17 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 // setLogLevel("debug");
 
-export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({
-    tabManager: persistentSingleTabManager({
-      // forceOwnership for web worker
-      forceOwnership: !globalThis.localStorage,
-    }),
-    cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-  }),
-});
+// export const db = initializeFirestore(app, {
+//   localCache: persistentLocalCache({
+//     tabManager: persistentSingleTabManager({
+//       // forceOwnership for web worker
+//       forceOwnership: !globalThis.localStorage,
+//     }),
+//     cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+//   }),
+// });
 
-// export const db = getFirestore(app);
+export const db = getFirestore(app);
 export const siteRef = collection(db, "sites");
 
 const auth = getAuth(app);

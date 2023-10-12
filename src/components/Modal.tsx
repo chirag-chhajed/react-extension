@@ -1,15 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+// } from "@/components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { useEffect, useState } from "react";
+// import { useAtom } from "jotai";
+import { Calendar, Facebook, Github } from "lucide-react";
+// import { sitesAtom } from "@/App";
+
+// type SiteData = {
+//   title: string;
+//   description: string;
+//   favicon: string;
+//   url: string;
+//   isPin: boolean;
+// };
+// interface siteType {
+//   id: string;
+//   data: SiteData;
+// }
 
 const ModalContainer = () => {
   const [open, setIsOpen] = useState(true);
+  // const [sites] = useAtom(sitesAtom);
 
   const removeStyles = () => {
     const style = document.querySelector(`style[data-id="custom-styles"]`);
@@ -44,7 +69,7 @@ const ModalContainer = () => {
     };
   }, [open]);
   return (
-    <Dialog
+    <CommandDialog
       defaultOpen
       open={open}
       onOpenChange={(e) => {
@@ -54,16 +79,24 @@ const ModalContainer = () => {
         }
       }}
     >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="sites">
+          <CommandItem>
+            <Facebook />
+            facebook
+          </CommandItem>
+          <CommandItem>
+            <Calendar />
+            Calendar
+          </CommandItem>
+          <CommandItem>
+            <Github /> Github
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
   );
 };
 
