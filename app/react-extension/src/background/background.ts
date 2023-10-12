@@ -30,18 +30,9 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 // setLogLevel("debug");
 
-// export const db = initializeFirestore(app, {
-//   localCache: persistentLocalCache({
-//     tabManager: persistentSingleTabManager({
-//       // forceOwnership for web worker
-//       forceOwnership: !globalThis.localStorage,
-//     }),
-//     cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-//   }),
-// });
-
 export const db = getFirestore(app);
 export const siteRef = collection(db, "sites");
+export const userRef = collection(db, "users");
 
 const auth = getAuth(app);
 
@@ -57,8 +48,24 @@ const signIn = async () => {
   try {
     const credential = await getGoogleAuthCredential();
     const result = await signInWithCredential(auth, credential);
-
-    console.log(result.user, "user");
+    // const q = query(userRef, where("user_id", "==", result.user.uid));
+    // const querySnapshot = await getDocs(q);
+    // if (querySnapshot.empty) {
+    //   await addDoc(userRef, {
+    //     displayName: result.user.displayName,
+    //     email: result.user.email,
+    //     photoUrl: result.user.photoURL,
+    //     user_id: result.user.uid,
+    //   })
+    //     .then(() => {
+    //       console.log("user added to document");
+    //     })
+    //     .catch((err) => {
+    //       console.log("failed to add user no");
+    //       console.error(err);
+    //     });
+    // }
+    // console.log(result.user, "user");
     return result.user;
   } catch (e) {
     console.error(e);
