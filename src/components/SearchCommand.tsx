@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/command";
 import { useAtom } from "jotai";
 import SearchCard from "./SearchCard";
-import { useRef } from "react";
+
 type SiteData = {
   title: string;
   description: string;
@@ -26,20 +26,9 @@ const SearchCommand = () => {
   const [open, setOpen] = useAtom(commandState);
   const [sites] = useAtom(sitesAtom);
 
-  const ref = useRef<HTMLInputElement>(null);
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "ArrowDown") {
-      ref.current?.blur();
-    }
-  };
-
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput
-        onKeyDown={handleKeyDown}
-        ref={ref}
-        placeholder="Type a command or search..."
-      />
+      <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Suggestions">
