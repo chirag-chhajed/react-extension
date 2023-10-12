@@ -27,7 +27,7 @@ import CardComponent from "./components/SiteCard";
 
 export const userAuthAtom = atom<User | null>(null);
 export const commandState = atom<boolean>(false);
-const sitesAtom = atom<DocumentData | []>([]);
+export const sitesAtom = atom<DocumentData | []>([]);
 
 type SiteData = {
   title: string;
@@ -135,19 +135,21 @@ export default function Home() {
             }
           />
         </aside>
-        <main className="bg-secondary text-secondary-foreground p-4 grid grid-cols-[repeat(auto-fill,minmax(250px,300px))] auto-rows-fr gap-6 justify-evenly overflow-y-auto ml-20 w-full justify-items-center">
-          {sites.length > 0 &&
-            sites.map((site: siteType) => (
-              <CardComponent
-                key={site.id}
-                dataId={site.id}
-                title={site.data.title}
-                description={site.data.description}
-                favicon={site.data.favicon}
-                url={site.data.url}
-                isPin={site.data.isPin}
-              />
-            ))}
+        <main className="bg-secondary text-secondary-foreground p-4  overflow-y-auto ml-20 w-full h-[100svh]">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,300px))] auto-rows-fr gap-6 justify-evenly justify-items-center overflow-y-scroll">
+            {sites.length > 0 &&
+              sites.map((site: siteType) => (
+                <CardComponent
+                  key={site.id}
+                  dataId={site.id}
+                  title={site.data.title}
+                  description={site.data.description}
+                  favicon={site.data.favicon}
+                  url={site.data.url}
+                  isPin={site.data.isPin}
+                />
+              ))}
+          </div>
         </main>
       </div>
       <SearchCommand />
