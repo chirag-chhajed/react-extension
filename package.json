@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:extension": "pnpm --filter=react-extension build",
+    "build:site": "pnpm --filter=site build",
     "dev": "pnpm --filter=site dev"
   },
   "keywords": [],

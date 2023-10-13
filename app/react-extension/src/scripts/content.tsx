@@ -6,11 +6,15 @@ console.log("Hey I am running from a chrome extension, do you know it");
 
 function createModal() {
   let modalContainer = document.getElementById("customModal");
+  const style = document.createElement("style");
+  style.setAttribute("data-id", "custom-styles");
+  style.innerHTML = styles;
 
   if (!modalContainer) {
     modalContainer = document.createElement("div");
     modalContainer.id = "customModal";
     document.body.appendChild(modalContainer);
+    document.head.appendChild(style);
   }
 
   const modalRoot = createRoot(modalContainer); // Create a root within the customModal div
@@ -36,11 +40,8 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.command === "insert_css") {
-    const style = document.createElement("style");
-    style.setAttribute("data-id", "custom-styles");
-    style.innerHTML = styles;
-    document.head.appendChild(style);
-  }
-});
+// chrome.runtime.onMessage.addListener((message) => {
+//   if (message.command === "insert_css") {
+
+//   }
+// });

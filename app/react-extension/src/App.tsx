@@ -24,22 +24,11 @@ import { toast } from "sonner";
 import { DocumentData, getDocs, query, where } from "firebase/firestore";
 import { siteRef } from "./background/background";
 import CardComponent from "./components/SiteCard";
+import { siteType } from "@/@types/siteCard";
 
 export const userAuthAtom = atom<User | null>(null);
 export const commandState = atom<boolean>(false);
 export const sitesAtom = atom<DocumentData | []>([]);
-
-type SiteData = {
-  title: string;
-  description: string;
-  favicon: string;
-  url: string;
-  isPin: boolean;
-};
-interface siteType {
-  id: string;
-  data: SiteData;
-}
 
 export default function Home() {
   const [user, setUser] = useAtom(userAuthAtom);
@@ -112,6 +101,18 @@ export default function Home() {
       }
     });
   };
+  useEffect(() => {
+    sites.length > 0
+      ? chrome.runtime.sendMessage({ action: "sites", sites }, (response) => {
+          console.log(response);
+          if (response && response.success) {
+            console.log("Data passage working");
+          } else {
+            console.error("Data passage not working");
+          }
+        })
+      : console.log("No sites");
+  }, [sites]);
 
   if (!user) {
     return <LoginForm />;

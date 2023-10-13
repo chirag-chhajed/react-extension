@@ -18,23 +18,14 @@ import {
 import { useEffect, useState } from "react";
 // import { useAtom } from "jotai";
 import { Calendar, Facebook, Github } from "lucide-react";
+import { siteType } from "@/@types/siteCard";
+import SearchCard from "./SearchCard";
 // import { sitesAtom } from "@/App";
-
-// type SiteData = {
-//   title: string;
-//   description: string;
-//   favicon: string;
-//   url: string;
-//   isPin: boolean;
-// };
-// interface siteType {
-//   id: string;
-//   data: SiteData;
-// }
 
 const ModalContainer = () => {
   const [open, setIsOpen] = useState(true);
   // const [sites] = useAtom(sitesAtom);
+  const [sites, setSites] = useState<siteType[]>([]);
 
   const removeStyles = () => {
     const style = document.querySelector(`style[data-id="custom-styles"]`);
@@ -68,6 +59,16 @@ const ModalContainer = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
+  useEffect(() => {
+    // Send a message to your extension's background script to get sites
+    chrome.runtime.sendMessage({ action: "getSites" }, (response) => {
+      console.log(response);
+      if (response.success) {
+        setSites(response.sites);
+        console.table(response.sites);
+      }
+    });
+  }, []);
   return (
     <CommandDialog
       defaultOpen
@@ -76,6 +77,10 @@ const ModalContainer = () => {
         console.log("state changed of dialog");
         if (e === false) {
           closeDialog();
+          const modalContainer = document.getElementById("customModal");
+          if (modalContainer) {
+            modalContainer.remove();
+          }
         }
       }}
     >
@@ -83,6 +88,18 @@ const ModalContainer = () => {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="sites">
+          {sites &&
+            sites.map((site: siteType) => (
+              <SearchCard
+                key={site.id}
+                description={site.data.description}
+                favicon={site.data.favicon}
+                title={site.data.title}
+                url={site.data.url}
+              />
+            ))}
+
+          {/* <SearchCard/> */}
           <CommandItem>
             <Facebook />
             facebook

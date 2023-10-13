@@ -9,18 +9,7 @@ import {
 } from "@/components/ui/command";
 import { useAtom } from "jotai";
 import SearchCard from "./SearchCard";
-
-type SiteData = {
-  title: string;
-  description: string;
-  favicon: string;
-  url: string;
-  isPin: boolean;
-};
-interface siteType {
-  id: string;
-  data: SiteData;
-}
+import { siteType } from "@/@types/siteCard";
 
 const SearchCommand = () => {
   const [open, setOpen] = useAtom(commandState);
