@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 // React and Custom Components
 import { useEffect } from "react";
@@ -28,7 +29,7 @@ import { siteType } from "@/@types/siteCard";
 
 export const userAuthAtom = atom<User | null>(null);
 export const commandState = atom<boolean>(false);
-export const sitesAtom = atom<DocumentData | []>([]);
+export const sitesAtom = atom<DocumentData>([]);
 
 export default function Home() {
   const [user, setUser] = useAtom(userAuthAtom);
@@ -124,18 +125,6 @@ export default function Home() {
       }
     });
   };
-  useEffect(() => {
-    sites.length > 0
-      ? chrome.runtime.sendMessage({ action: "sites", sites }, (response) => {
-          console.log(response);
-          if (response && response.success) {
-            console.log("Data passage working");
-          } else {
-            console.error("Data passage not working");
-          }
-        })
-      : console.log("No sites");
-  }, [sites]);
 
   if (!user) {
     return <LoginForm />;

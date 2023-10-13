@@ -62,6 +62,31 @@ class SwiftSearchDB extends Dexie {
       throw error;
     }
   }
+  async updateSite(siteId: string, data: Partial<Site>): Promise<void> {
+    const updatedData: Partial<Site> = {
+      ...data,
+      updatedAt: Timestamp.now(),
+    };
+
+    try {
+      await this.sites.update(siteId, updatedData);
+      console.log(`Site with ID ${siteId} updated.`);
+    } catch (error) {
+      console.error(`Failed to update site: ${error}`);
+      throw error;
+    }
+  }
+
+  // Custom method to delete a site by ID
+  async deleteSite(siteId: string): Promise<void> {
+    try {
+      await this.sites.delete(siteId);
+      console.log(`Site with ID ${siteId} deleted.`);
+    } catch (error) {
+      console.error(`Failed to delete site: ${error}`);
+      throw error;
+    }
+  }
 }
 
 export interface Site {
@@ -149,20 +174,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       signOut(auth);
       sendResponse({ success: true });
       break;
-    // case "sites":
-    //   sites = request.sites;
-    //   console.log(sites, "request");
-    //   sendResponse({ success: true });
-    //   // return true;
-    //   break;
-    // case "getSites":
-    //   (async () => {
-    //     console.log(sites, "request");
-
-    //     sendResponse({ success: true, sites });
-    //   })();
-
-    //   break;
     default:
       console.log(request, "request");
       break;

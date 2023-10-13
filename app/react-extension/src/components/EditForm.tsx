@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import {
@@ -27,8 +28,11 @@ import { useEffect, useState } from "react";
 import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
 import { faviconURL } from "@/lib/getFaviconUrl";
 import { Timestamp, updateDoc } from "firebase/firestore";
-import { getDocumentRef } from "@/background/background";
+import { Dexiedb, getDocumentRef } from "@/background/background";
 import { toast } from "sonner";
+import { sitesAtom } from "@/App";
+import { useAtom } from "jotai";
+import { siteType } from "@/@types/siteCard";
 
 const SiteSchema = object({
   title: string([minLength(5, "title must have at least 6 characters")]),
@@ -56,6 +60,7 @@ const EditForm = ({
 }: EditFormProps) => {
   const [url_, setUrl] = useState("");
   const [debouncedUrl, setDebouncedUrl] = useState("");
+  const [sites, setSites] = useAtom(sitesAtom);
   const form = useForm({
     defaultValues: {
       title: title,
@@ -104,14 +109,37 @@ const EditForm = ({
 
     return () => clearTimeout(debouncedTimeout);
   }, [debouncedUrl]);
+
   const onSubmit = async (data: SiteData): Promise<void> => {
     try {
       await updateDoc(getDocumentRef("sites", dataId), {
         ...data,
         url: debouncedUrl,
-        favicon: faviconURL(data.url),
+        favicon: faviconURL(debouncedUrl),
         updated_at: Timestamp.now(),
       });
+      await Dexiedb.updateSite(dataId, {
+        ...data,
+        url: debouncedUrl,
+        favicon: faviconURL(debouncedUrl),
+        updatedAt: Timestamp.now(),
+      });
+      const newSites = sites.map((site: siteType) => {
+        if (site.id === dataId) {
+          return {
+            id: dataId,
+            data: {
+              title: data.title,
+              url: debouncedUrl,
+              description: data.description,
+              isPin: data.isPin,
+              favicon: faviconURL(debouncedUrl),
+            },
+          };
+        }
+        return site;
+      });
+      setSites(newSites);
       toast.success("Site updated");
     } catch (error) {
       console.error(error);

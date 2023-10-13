@@ -23,8 +23,11 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { deleteDoc } from "firebase/firestore";
-import { getDocumentRef } from "@/background/background";
+import { Dexiedb, getDocumentRef } from "@/background/background";
 import EditForm from "./EditForm";
+import { sitesAtom } from "@/App";
+import { useAtom } from "jotai";
+import { siteType } from "@/@types/siteCard";
 
 interface CardComponentProps {
   dataId: string;
@@ -35,16 +38,6 @@ interface CardComponentProps {
   isPin: boolean;
 }
 
-const deleteingSite = async (documentId: string) => {
-  try {
-    await deleteDoc(getDocumentRef("sites", documentId));
-    toast.success("Site deleted");
-  } catch (error) {
-    toast.error("Error deleting site");
-    console.error(error);
-  }
-};
-
 const CardComponent = ({
   dataId,
   favicon,
@@ -53,6 +46,20 @@ const CardComponent = ({
   isPin,
   description,
 }: CardComponentProps) => {
+  const [, setSites] = useAtom(sitesAtom);
+  const deleteingSite = async (documentId: string) => {
+    try {
+      await deleteDoc(getDocumentRef("sites", documentId));
+      await Dexiedb.deleteSite(documentId);
+      toast.success("Site deleted");
+      setSites((sites) =>
+        sites.filter((site: siteType) => site.id !== documentId)
+      );
+    } catch (error) {
+      toast.error("Error deleting site");
+      console.error(error);
+    }
+  };
   return (
     <TooltipProvider>
       <Card data-id={dataId} className="max-w-[300px] min-w-[250px]">

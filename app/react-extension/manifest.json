@@ -20,7 +20,7 @@
                 "src/scripts/content.tsx"
             ],
             "matches": [
-                "*://*/*"
+                "<all_urls>"
             ]
         }
     ],
