@@ -14,6 +14,7 @@ import {
   safeParse,
   Output,
   optional,
+  toTrimmed,
 } from "valibot";
 
 // UI Components
@@ -48,9 +49,12 @@ import { sitesAtom } from "@/App";
 import { siteType } from "@/@types/siteCard";
 
 const SiteSchema = object({
-  title: string([minLength(5, "title must have at least 6 characters")]),
-  url: string(),
-  description: optional(string()),
+  title: string([
+    toTrimmed(),
+    minLength(5, "title must have at least 6 characters"),
+  ]),
+  url: string([toTrimmed()]),
+  description: optional(string([toTrimmed()])),
   isPin: boolean(),
 });
 
@@ -117,6 +121,7 @@ const SiteForm = () => {
   }, [debouncedUrl]);
 
   const onSubmit = async (data: SiteData): Promise<void> => {
+    console.log(data);
     try {
       const res = await addDoc(siteRef, {
         ...data,
@@ -134,7 +139,7 @@ const SiteForm = () => {
         url: debouncedUrl,
         favicon: faviconURL(debouncedUrl),
       })
-        .then((res) => console.log("site added to dexie", res))
+        .then(() => console.log("site added to dexie"))
         .catch((err) => console.log("unable to add to dexie", err));
 
       setSites((prev: siteType[]) => [

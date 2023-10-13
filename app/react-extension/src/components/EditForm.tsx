@@ -10,6 +10,7 @@ import {
   safeParse,
   Output,
   optional,
+  toTrimmed,
 } from "valibot";
 
 import {
@@ -35,9 +36,12 @@ import { useAtom } from "jotai";
 import { siteType } from "@/@types/siteCard";
 
 const SiteSchema = object({
-  title: string([minLength(5, "title must have at least 6 characters")]),
-  url: string(),
-  description: optional(string()),
+  title: string([
+    toTrimmed(),
+    minLength(5, "title must have at least 6 characters"),
+  ]),
+  url: string([toTrimmed()]),
+  description: optional(string([toTrimmed()])),
   isPin: boolean(),
 });
 

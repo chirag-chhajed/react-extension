@@ -48,7 +48,6 @@ export default function Home() {
       if (response.success) {
         setUser(response.user);
 
-        // Move the Firestore user check/add logic here
         if (response.user) {
           (async () => {
             const q = query(userRef, where("user_id", "==", response.user.uid));
@@ -144,6 +143,7 @@ export default function Home() {
       console.log(response);
       if (response.success) {
         console.log("Data passage working");
+        Dexiedb.sites.clear();
         toast.success("Signed Out");
 
         setUser(null);
