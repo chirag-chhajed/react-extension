@@ -177,7 +177,7 @@ export default function Home() {
           />
         </aside>
         <main className="bg-secondary text-secondary-foreground p-4  overflow-y-auto ml-20 w-full h-[100svh]">
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,300px))] auto-rows-fr gap-6 justify-evenly justify-items-center overflow-y-scroll">
+          <div className="grid gap-6 overflow-y-scroll max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 auto-rows-fr justify-evenly justify-items-center">
             {sites.length > 0 &&
               sites.map((site: siteType) => (
                 <CardComponent

@@ -62,37 +62,43 @@ const CardComponent = ({
   };
   return (
     <TooltipProvider>
-      <Card data-id={dataId} className="max-w-[300px] min-w-[250px]">
+      <Card data-id={dataId} className="w-72">
         <CardHeader>
           <CardTitle className="flex flex-col items-start gap-2" tabIndex={-1}>
-            <img
-              src={favicon}
-              alt="favicon"
-              height={32}
-              width={32}
-              className="w-8 h-8 aspect-square"
-            />
+            <div className="flex items-center justify-center w-12 h-12 rounded-sm shadow-md bg-accent-foreground shadow-accent">
+              <img
+                src={favicon}
+                alt={title}
+                height={32}
+                width={32}
+                className="w-8 h-8 aspect-square"
+              />
+            </div>
+
             {/* <Facebook className="" tabIndex={-1} /> */}
             <Tooltip>
               <TooltipTrigger>
                 <a
-                  className="underline-offset-4 hover:underline"
+                  className="flex-1 h-12 text-left underline-offset-4 hover:underline line-clamp-2"
                   href={url}
                   target="_blank"
                 >
                   {title}
                 </a>
               </TooltipTrigger>
-              <TooltipContent>{title}</TooltipContent>
+              <TooltipContent className="max-w-[200px]">{title}</TooltipContent>
             </Tooltip>
           </CardTitle>
 
           <Tooltip>
             <TooltipTrigger>
-              <CardDescription className="text-left line-clamp-3" tabIndex={-1}>
+              <CardDescription
+                className="h-16 text-left line-clamp-3"
+                tabIndex={-1}
+              >
                 {description}
               </CardDescription>
-              <TooltipContent className="w-[200px]">
+              <TooltipContent className="max-w-[200px]">
                 {description}
               </TooltipContent>
             </TooltipTrigger>

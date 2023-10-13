@@ -182,6 +182,7 @@ const SiteForm = () => {
                     field.onChange(e);
                     setUrl(e.target.value);
                   }}
+                  required
                 />
               </FormControl>
               <FormMessage />
@@ -195,7 +196,7 @@ const SiteForm = () => {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="title" />
+                <Input required {...field} placeholder="title" />
               </FormControl>
               <FormMessage />
             </FormItem>

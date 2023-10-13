@@ -9,16 +9,23 @@ interface SearchCardProps {
 }
 
 const SearchCard = ({ description, favicon, title, url }: SearchCardProps) => {
+  console.log(description);
   return (
     <CommandItem
       onSelect={() => window.open(url, "_blank")}
-      className="flex items-center w-full space-x-2 border rounded-lg shadow-sm bg-card text-card-foreground"
+      className="flex items-center w-full gap-4 border rounded-lg shadow-sm bg-card text-card-foreground "
     >
-      <img src={favicon} height={32} width={32} alt={title} />
-      <div className="flex flex-col items-start">
-        <h3>{title}</h3>
-        <p>{description}</p>
+      <div className="flex items-center justify-center w-12 h-12 rounded-sm shadow-md bg-accent-foreground shadow-accent min-w-[3rem]">
+        <img
+          src={favicon}
+          alt="favicon"
+          height={32}
+          width={32}
+          className="w-8 h-8 aspect-square"
+        />
       </div>
+
+      <h3 className="line-clamp-2">{title}</h3>
     </CommandItem>
   );
 };
