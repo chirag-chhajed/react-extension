@@ -10,6 +10,8 @@ function createModal() {
   style.setAttribute("data-id", "custom-styles");
   style.innerHTML = styles;
 
+  // let sites: Site[] = [];
+
   if (!modalContainer) {
     modalContainer = document.createElement("div");
     modalContainer.id = "customModal";
@@ -39,9 +41,3 @@ chrome.runtime.onMessage.addListener((message) => {
     console.log("open popup");
   }
 });
-
-// chrome.runtime.onMessage.addListener((message) => {
-//   if (message.command === "insert_css") {
-
-//   }
-// });

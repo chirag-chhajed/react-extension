@@ -1,31 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
 import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from "@/components/ui/command";
 import { useEffect, useState } from "react";
-// import { useAtom } from "jotai";
-import { Calendar, Facebook, Github } from "lucide-react";
-import { siteType } from "@/@types/siteCard";
 import SearchCard from "./SearchCard";
-// import { sitesAtom } from "@/App";
+import { Site } from "@/lib/SwiftSearchDB";
 
 const ModalContainer = () => {
   const [open, setIsOpen] = useState(true);
-  // const [sites] = useAtom(sitesAtom);
-  const [sites, setSites] = useState<siteType[]>([]);
+  const [sites, setSites] = useState<Site[]>([]);
 
   const removeStyles = () => {
     const style = document.querySelector(`style[data-id="custom-styles"]`);
@@ -33,7 +21,6 @@ const ModalContainer = () => {
     if (style) {
       style.remove();
     }
-    // document.body.style.removeProperty("pointer-events");
   };
 
   const closeDialog = () => {
@@ -41,7 +28,6 @@ const ModalContainer = () => {
     removeStyles();
   };
 
-  // Add an event listener for the "keydown" event to close the dialog on ESC key press
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -59,16 +45,16 @@ const ModalContainer = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
+
   useEffect(() => {
-    // Send a message to your extension's background script to get sites
-    chrome.runtime.sendMessage({ action: "getSites" }, (response) => {
+    chrome.runtime.sendMessage({ action: "getData" }, (response) => {
       console.log(response);
       if (response.success) {
         setSites(response.sites);
-        console.table(response.sites);
       }
     });
   }, []);
+
   return (
     <CommandDialog
       defaultOpen
@@ -89,28 +75,15 @@ const ModalContainer = () => {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="sites">
           {sites &&
-            sites.map((site: siteType) => (
+            sites.map((site: Site) => (
               <SearchCard
                 key={site.id}
-                description={site.data.description}
-                favicon={site.data.favicon}
-                title={site.data.title}
-                url={site.data.url}
+                description={site.description ?? ""}
+                favicon={site.favicon}
+                title={site.title}
+                url={site.url}
               />
             ))}
-
-          {/* <SearchCard/> */}
-          <CommandItem>
-            <Facebook />
-            facebook
-          </CommandItem>
-          <CommandItem>
-            <Calendar />
-            Calendar
-          </CommandItem>
-          <CommandItem>
-            <Github /> Github
-          </CommandItem>
         </CommandGroup>
       </CommandList>
     </CommandDialog>

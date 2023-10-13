@@ -22,8 +22,14 @@ import { atom, useAtom } from "jotai";
 import { User } from "firebase/auth";
 // Utility
 import { toast } from "sonner";
-import { DocumentData, getDocs, query, where } from "firebase/firestore";
-import { Dexiedb, siteRef } from "./background/background";
+import {
+  DocumentData,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { Dexiedb, siteRef, userRef } from "@/background/background";
 import CardComponent from "./components/SiteCard";
 import { siteType } from "@/@types/siteCard";
 
@@ -41,11 +47,33 @@ export default function Home() {
       console.log(response);
       if (response.success) {
         setUser(response.user);
+
+        // Move the Firestore user check/add logic here
+        if (response.user) {
+          (async () => {
+            const q = query(userRef, where("user_id", "==", response.user.uid));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+              await addDoc(userRef, {
+                displayName: response.user.displayName,
+                email: response.user.email!,
+                photoURL: response.user.photoURL!,
+                user_id: response.user.uid,
+              })
+                .then((res) => console.log(res, "User added to document"))
+                .catch((err) => console.log(err));
+            } else {
+              console.log("User already exists");
+            }
+          })();
+        } else {
+          console.log("User is undefined in the response.");
+        }
       } else {
         console.log("Data passage not working");
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
