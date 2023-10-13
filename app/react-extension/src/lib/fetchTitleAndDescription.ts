@@ -24,7 +24,8 @@ async function fetchTitleAndDescription(url: string) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
-    const title = doc.querySelector("title")?.textContent;
+    const titleSelecter = doc.querySelector("title");
+    const title = titleSelecter ? titleSelecter.textContent : "";
     const metaDescription = doc.querySelector('meta[name="description"]');
     const description = metaDescription
       ? metaDescription.getAttribute("content")
