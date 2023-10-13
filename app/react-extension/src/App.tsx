@@ -22,7 +22,7 @@ import { User } from "firebase/auth";
 // Utility
 import { toast } from "sonner";
 import { DocumentData, getDocs, query, where } from "firebase/firestore";
-import { siteRef } from "./background/background";
+import { Dexiedb, siteRef } from "./background/background";
 import CardComponent from "./components/SiteCard";
 import { siteType } from "@/@types/siteCard";
 
@@ -59,6 +59,29 @@ export default function Home() {
             id: doc.id,
             data: doc.data(),
           }));
+
+          const numFirebaseDocuments = sitesData.length;
+
+          const numDexieDocuments = await Dexiedb.getSiteCount();
+
+          if (numFirebaseDocuments !== numDexieDocuments) {
+            // Clear the Dexie database
+            await Dexiedb.sites.clear();
+
+            // Add all the documents from Firebase to Dexie
+            await Dexiedb.addMultipleSites(
+              sitesData.map((site) => ({
+                id: site.id,
+                title: site.data.title,
+                description: site.data.description,
+                url: site.data.url,
+                createdAt: site.data.created_at,
+                updatedAt: site.data.updated_at,
+                favicon: site.data.favicon,
+                isPin: site.data.isPin,
+              }))
+            );
+          }
 
           // Set the sites state with the array of data
           setSites(sitesData);

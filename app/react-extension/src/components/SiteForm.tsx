@@ -42,7 +42,7 @@ import { faviconURL } from "@/lib/getFaviconUrl";
 import { userAuthAtom } from "@/App";
 
 // Analytics and Firestore
-import { siteRef } from "@/background/background";
+import { Dexiedb, siteRef } from "@/background/background";
 
 const SiteSchema = object({
   title: string([minLength(5, "title must have at least 6 characters")]),
@@ -122,7 +122,15 @@ const SiteForm = () => {
         created_at: Timestamp.now(),
         updated_at: Timestamp.now(),
       });
-
+      await Dexiedb.addSite({
+        id: res.id,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+        ...data,
+        favicon: faviconURL(data.url),
+      })
+        .then((res) => console.log("site added to dexie", res))
+        .catch((err) => console.log("unable to add to dexie", err));
       console.log("added to db", res);
       toast.success("Site Added");
       form.reset();
