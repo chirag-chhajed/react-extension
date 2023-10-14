@@ -84,7 +84,7 @@ const SiteForm = () => {
         !tempUrl.startsWith("http://") &&
         !tempUrl.startsWith("www.")
       ) {
-        tempUrl = `https://${tempUrl}`;
+        tempUrl = `https://www.${tempUrl}`;
       }
       setDebouncedUrl(tempUrl);
       return () => clearTimeout(deboundeTimeout);

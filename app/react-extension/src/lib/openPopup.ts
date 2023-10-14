@@ -1,17 +1,26 @@
-export function getActiveTab(): number | void {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length > 0) {
-      if (tabs[0]) {
-        const tabId = tabs[0].id;
-        if (tabId !== undefined) {
-          return tabId;
+export function getActiveTabInfo(): Promise<{
+  info: chrome.tabs.Tab;
+}> {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        if (tabs[0]) {
+          const tabId = tabs[0].id;
+          // const tabUrl = tabs[0].url;
+          if (tabId !== undefined) {
+            resolve({ info: tabs[0] });
+          } else {
+            console.error("Tab ID is undefined.");
+            reject();
+          }
         } else {
-          console.error("Tab ID is undefined.");
+          console.error("No active tab found.");
+          reject();
         }
       } else {
-        console.error("No active tab found.");
+        reject();
       }
-    }
+    });
   });
 }
 

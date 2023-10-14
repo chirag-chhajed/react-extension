@@ -5,11 +5,13 @@ interface SearchCardProps {
   url: string;
   favicon: string;
   title: string;
+  description?: string;
 }
 
-const SearchCard = ({ favicon, title, url }: SearchCardProps) => {
+const SearchCard = ({ description, favicon, title, url }: SearchCardProps) => {
   return (
     <CommandItem
+      value={`${url} ${description}`}
       onSelect={() => window.open(url, "_blank")}
       className="flex items-center w-full gap-4 border rounded-lg shadow-sm bg-card text-card-foreground "
     >
@@ -23,7 +25,7 @@ const SearchCard = ({ favicon, title, url }: SearchCardProps) => {
         />
       </div>
 
-      <h3 className="line-clamp-2">{title}</h3>
+      <h3 className="text-base font-medium line-clamp-2">{title}</h3>
     </CommandItem>
   );
 };
