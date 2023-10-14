@@ -24,7 +24,6 @@ const SearchCommand = () => {
             sites.map((site: siteType) => (
               <SearchCard
                 key={site.id}
-                description={site.data.description}
                 favicon={site.data.favicon}
                 title={site.data.title}
                 url={site.data.url}

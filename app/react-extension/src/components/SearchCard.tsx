@@ -5,11 +5,9 @@ interface SearchCardProps {
   url: string;
   favicon: string;
   title: string;
-  description: string;
 }
 
-const SearchCard = ({ description, favicon, title, url }: SearchCardProps) => {
-  console.log(description);
+const SearchCard = ({ favicon, title, url }: SearchCardProps) => {
   return (
     <CommandItem
       onSelect={() => window.open(url, "_blank")}

@@ -1,7 +1,6 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -21,9 +20,9 @@ const SettingDropDown = ({
       <DropdownMenuContent align="start" loop sideOffset={-50} alignOffset={50}>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log("profile")}>
+        {/* <DropdownMenuItem onClick={() => console.log("profile")}>
           Profile
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         {signout}
       </DropdownMenuContent>
     </DropdownMenu>

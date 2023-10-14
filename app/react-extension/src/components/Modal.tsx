@@ -78,7 +78,7 @@ const ModalContainer = () => {
             sites.map((site: Site) => (
               <SearchCard
                 key={site.id}
-                description={site.description ?? ""}
+                // description={site.description ?? ""}
                 favicon={site.favicon}
                 title={site.title}
                 url={site.url}

@@ -144,6 +144,7 @@ const EditForm = ({
         return site;
       });
       setSites(newSites);
+      form.reset();
       toast.success("Site updated");
     } catch (error) {
       console.error(error);
