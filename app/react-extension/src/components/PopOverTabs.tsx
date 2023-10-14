@@ -17,12 +17,23 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { atom, useAtom } from "jotai";
 import { User } from "firebase/auth";
+import { Site } from "@/lib/SwiftSearchDB";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandList,
+} from "./ui/command";
+import SearchCard from "./SearchCard";
 
 const userAuthAtom = atom<User | null>(null);
 
 export default function TabsDemo() {
   const [disabled, setDisabled] = useState(false);
   const [user, setUser] = useAtom(userAuthAtom);
+  const [sites, setSites] = useState<Site[]>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "user" }, (response) => {
@@ -31,6 +42,14 @@ export default function TabsDemo() {
         setUser(response.user);
       } else {
         console.log("Data passage not working");
+      }
+    });
+  }, []);
+  useEffect(() => {
+    chrome.runtime.sendMessage({ action: "getData" }, (response) => {
+      console.log(response);
+      if (response.success) {
+        setSites(response.sites);
       }
     });
   }, []);
@@ -78,10 +97,11 @@ export default function TabsDemo() {
     );
   }
   return (
-    <Tabs defaultValue="add" className="w-[400px] p-2">
-      <TabsList className="grid w-full grid-cols-2">
+    <Tabs defaultValue="add" className="w-[400px] p-2 max-h-96">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="add">Add Site</TabsTrigger>
         <TabsTrigger value="info">Guide</TabsTrigger>
+        <TabsTrigger value="sites">Sites</TabsTrigger>
       </TabsList>
       <TabsContent value="add">
         <Card>
@@ -159,6 +179,29 @@ export default function TabsDemo() {
             </div>
           </CardContent>
         </Card>
+      </TabsContent>
+      <TabsContent value="sites">
+        <Command>
+          <CommandInput
+            value={search}
+            onValueChange={setSearch}
+            placeholder="Type a command or search..."
+          />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Sites">
+              {sites &&
+                sites.map((site: Site) => (
+                  <SearchCard
+                    key={site.id}
+                    favicon={site.favicon}
+                    title={site.title}
+                    url={site.url}
+                  />
+                ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </TabsContent>
     </Tabs>
   );
