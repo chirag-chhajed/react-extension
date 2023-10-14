@@ -181,27 +181,29 @@ export default function TabsDemo() {
         </Card>
       </TabsContent>
       <TabsContent value="sites">
-        <Command>
-          <CommandInput
-            value={search}
-            onValueChange={setSearch}
-            placeholder="Type a command or search..."
-          />
-          <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Sites">
-              {sites &&
-                sites.map((site: Site) => (
-                  <SearchCard
-                    key={site.id}
-                    favicon={site.favicon}
-                    title={site.title}
-                    url={site.url}
-                  />
-                ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
+        <Card>
+          <Command>
+            <CommandInput
+              value={search}
+              onValueChange={setSearch}
+              placeholder="Type a command or search..."
+            />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandGroup heading="Sites">
+                {sites &&
+                  sites.map((site: Site) => (
+                    <SearchCard
+                      key={site.id}
+                      favicon={site.favicon}
+                      title={site.title}
+                      url={site.url}
+                    />
+                  ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </Card>
       </TabsContent>
     </Tabs>
   );
