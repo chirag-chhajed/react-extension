@@ -34,7 +34,7 @@ const SearchCommand = () => {
                 favicon={site.data.favicon}
                 title={site.data.title}
                 url={site.data.url}
-                description={site.data.description}
+                // description={site.data.description}
               />
             ))}
         </CommandGroup>
