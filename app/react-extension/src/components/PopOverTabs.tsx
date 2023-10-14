@@ -13,11 +13,27 @@ import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
 import { faviconURL } from "@/lib/getFaviconUrl";
 import { getActiveTabInfo } from "@/lib/openPopup";
 import { Timestamp, addDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { atom, useAtom } from "jotai";
+import { User } from "firebase/auth";
+
+const userAuthAtom = atom<User | null>(null);
 
 export default function TabsDemo() {
   const [disabled, setDisabled] = useState(false);
+  const [user, setUser] = useAtom(userAuthAtom);
+
+  useEffect(() => {
+    chrome.runtime.sendMessage({ action: "user" }, (response) => {
+      console.log(response);
+      if (response.success) {
+        setUser(response.user);
+      } else {
+        console.log("Data passage not working");
+      }
+    });
+  }, []);
   const addSite = async () => {
     try {
       setDisabled(true);
@@ -33,6 +49,7 @@ export default function TabsDemo() {
         isPin: false,
         created_at: Timestamp.now(),
         updated_at: Timestamp.now(),
+        user_id: user?.uid,
       });
 
       await Dexiedb.addSite({
@@ -53,7 +70,13 @@ export default function TabsDemo() {
       setDisabled(false);
     }
   };
-
+  if (!user) {
+    return (
+      <div className="w-[400px] p-2">
+        <h2>Not logged in</h2>
+      </div>
+    );
+  }
   return (
     <Tabs defaultValue="add" className="w-[400px] p-2">
       <TabsList className="grid w-full grid-cols-2">
