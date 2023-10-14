@@ -112,6 +112,7 @@ export default function TabsDemo() {
               <a
                 className="font-bold underline underline-offset-2"
                 href={chrome.runtime.getURL("index.html")}
+                target="_blank"
               >
                 Dashboard
               </a>{" "}
@@ -171,6 +172,7 @@ export default function TabsDemo() {
                 <a
                   className="font-bold underline underline-offset-2"
                   href={chrome.runtime.getURL("index.html")}
+                  target="_blank"
                 >
                   Dashboard
                 </a>{" "}
