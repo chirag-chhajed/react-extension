@@ -26,11 +26,13 @@ import {
   CommandList,
 } from "./ui/command";
 import SearchCard from "./SearchCard";
+import { Loader2Icon } from "lucide-react";
 
 const userAuthAtom = atom<User | null>(null);
 
 export default function TabsDemo() {
   const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useAtom(userAuthAtom);
   const [sites, setSites] = useState<Site[]>([]);
   const [search, setSearch] = useState("");
@@ -40,6 +42,7 @@ export default function TabsDemo() {
       console.log(response);
       if (response.success) {
         setUser(response.user);
+        setLoading(false);
       } else {
         console.log("Data passage not working");
       }
@@ -90,9 +93,23 @@ export default function TabsDemo() {
     }
   };
   if (!user) {
+    if (loading) {
+      return (
+        <div className="w-[400px] p-4 space-y-4 flex flex-col justify-center items-center">
+          <Loader2Icon className="animate-spin" />
+        </div>
+      );
+    }
     return (
-      <div className="w-[400px] p-2">
-        <h2>Not logged in</h2>
+      <div className="w-[400px] p-4 space-y-4 flex flex-col justify-center">
+        <h2 className="text-2xl font-bold">You don't seem logged in</h2>
+        <a
+          className="font-bold underline underline-offset-2"
+          href={chrome.runtime.getURL("index.html")}
+          target="_blank"
+        >
+          Log in here
+        </a>{" "}
       </div>
     );
   }
@@ -100,8 +117,8 @@ export default function TabsDemo() {
     <Tabs defaultValue="add" className="w-[400px] p-2 max-h-96">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="add">Add Site</TabsTrigger>
-        <TabsTrigger value="info">Guide</TabsTrigger>
         <TabsTrigger value="sites">Sites</TabsTrigger>
+        <TabsTrigger value="info">Guide</TabsTrigger>
       </TabsList>
       <TabsContent value="add">
         <Card>
