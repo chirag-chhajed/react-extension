@@ -41,7 +41,7 @@ const Header = () => {
     });
   };
   return (
-    <header className="flex items-center justify-center flex-1 p-6 py-4 bg-primary text-primary-foreground lg:px-8">
+    <header className="sticky top-0 flex items-center justify-center flex-1 p-6 py-4 bg-primary text-primary-foreground lg:px-8">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size={"icon"}>
