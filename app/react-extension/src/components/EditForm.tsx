@@ -99,7 +99,7 @@ const EditForm = ({
       if (debouncedUrl) {
         try {
           const result = safeParse(valildation, debouncedUrl);
-          console.log(result);
+          // console.log(result);
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);
             response.then((res) => {
@@ -108,7 +108,7 @@ const EditForm = ({
             });
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     }, 1000);
@@ -117,7 +117,7 @@ const EditForm = ({
   }, [debouncedUrl]);
 
   const onSubmit = async (data: SiteData): Promise<void> => {
-    console.log(data, "edited data");
+    // console.log(data, "edited data");
     try {
       const finalUrl = debouncedUrl === "https://" ? data.url : debouncedUrl;
       await updateDoc(getDocumentRef("sites", dataId), {

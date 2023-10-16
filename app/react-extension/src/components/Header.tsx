@@ -27,16 +27,15 @@ const Header = () => {
   const [, setUser] = useAtom(userAuthAtom);
   const signOut = () => {
     chrome.runtime.sendMessage({ action: "signOut" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
-        console.log("Data passage working");
+        // console.log("Data passage working");
         Dexiedb.sites.clear();
         toast.success("Signed Out");
-
         setUser(null);
       } else {
         toast.error("Error Signing Out");
-        console.log("Data passage not working");
+        // console.log("Data passage not working");
       }
     });
   };

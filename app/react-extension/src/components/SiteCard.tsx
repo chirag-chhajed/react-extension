@@ -38,8 +38,6 @@ interface CardComponentProps {
   isPin: boolean;
 }
 
-// export const editFormOpenState = atom(false);
-
 const CardComponent = ({
   dataId,
   favicon,

@@ -37,7 +37,6 @@ function openPopup() {
             const tabId = tabs[0].id;
             if (tabId !== undefined) {
               chrome.tabs.sendMessage(tabId, { command: "open_popup" });
-              // chrome.tabs.sendMessage(tabId, { command: "insert_css" });
             } else {
               console.error("Tab ID is undefined.");
             }

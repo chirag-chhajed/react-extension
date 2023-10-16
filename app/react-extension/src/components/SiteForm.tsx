@@ -98,7 +98,6 @@ const SiteForm = () => {
       if (debouncedUrl) {
         try {
           const result = safeParse(valildation, debouncedUrl);
-          console.log(result);
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);
             response.then((res) => {
@@ -112,7 +111,7 @@ const SiteForm = () => {
             });
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     }, 1000);
@@ -121,7 +120,6 @@ const SiteForm = () => {
   }, [debouncedUrl]);
 
   const onSubmit = async (data: SiteData): Promise<void> => {
-    console.log(data);
     try {
       const res = await addDoc(siteRef, {
         ...data,
@@ -138,9 +136,7 @@ const SiteForm = () => {
         ...data,
         url: debouncedUrl,
         favicon: faviconURL(debouncedUrl),
-      })
-        .then(() => console.log("site added to dexie"))
-        .catch((err) => console.log("unable to add to dexie", err));
+      }).catch((err) => console.error(err));
 
       setSites((prev: siteType[]) => [
         ...prev,
@@ -156,7 +152,6 @@ const SiteForm = () => {
         },
       ]);
 
-      console.log("added to db", res);
       toast.success("Site Added");
       form.reset();
     } catch (err) {

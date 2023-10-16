@@ -16,7 +16,7 @@ export class SwiftSearchDB extends Dexie {
   async addSite(site: Site): Promise<void> {
     try {
       await this.sites.add(site);
-      console.log("site added");
+      // console.log("site added");
     } catch (error) {
       console.error(`Failed to add site: ${error}`);
       throw error;
@@ -26,7 +26,7 @@ export class SwiftSearchDB extends Dexie {
     for (const site of sites) {
       await this.addSite(site);
     }
-    console.log("multiple sites added");
+    // console.log("multiple sites added");
   }
 
   // Custom method to get the number of documents in the 'sites' collection
@@ -47,7 +47,7 @@ export class SwiftSearchDB extends Dexie {
 
     try {
       await this.sites.update(siteId, updatedData);
-      console.log(`Site with ID ${siteId} updated.`);
+      // console.log(`Site with ID ${siteId} updated.`);
     } catch (error) {
       console.error(`Failed to update site: ${error}`);
       throw error;
@@ -58,7 +58,7 @@ export class SwiftSearchDB extends Dexie {
   async deleteSite(siteId: string): Promise<void> {
     try {
       await this.sites.delete(siteId);
-      console.log(`Site with ID ${siteId} deleted.`);
+      // console.log(`Site with ID ${siteId} deleted.`);
     } catch (error) {
       console.error(`Failed to delete site: ${error}`);
       throw error;

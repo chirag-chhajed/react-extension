@@ -78,33 +78,33 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       break;
 
     case "client":
-      console.log(request, "request");
-      console.log(request.data, "request.data");
+      // console.log(request, "request");
+      // console.log(request.data, "request.data");
       createUser(auth, request.data.email, request.data.password);
       sendResponse({ success: true });
       break;
 
     case "googleLogin":
-      console.log(request, "request");
+      // console.log(request, "request");
       // console.log(request.data, "request.data");
       signIn()
         .then((user) => {
-          console.log(user, "user");
+          // console.log(user, "user");
           sendResponse({ success: true, user: user });
         })
         .catch((error) => {
-          console.log(error, "error");
+          console.error(error);
         });
       // sendResponse({ success: true });
       break;
 
     case "signOut":
-      console.log(request, "request");
+      // console.log(request, "request");
       signOut(auth);
       sendResponse({ success: true });
       break;
     default:
-      console.log(request, "request");
+      // console.log(request, "request");
       break;
   }
   return true;
@@ -115,7 +115,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     (async () => {
       try {
         const isEmpty = await Dexiedb.isEmpty();
-        console.log(isEmpty, "isEmpty");
+        // console.log(isEmpty, "isEmpty");
 
         if (!isEmpty) {
           const sites = await Dexiedb.getAllSites();

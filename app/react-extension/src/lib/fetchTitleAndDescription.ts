@@ -1,7 +1,6 @@
 async function fetchWithTimeout(url: string, timeout: number) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
-  console;
   try {
     const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -14,7 +13,7 @@ async function fetchWithTimeout(url: string, timeout: number) {
 async function fetchTitleAndDescription(url: string) {
   try {
     const response = await fetchWithTimeout(url, 10000); // Timeout after 10 seconds
-    console.log(response);
+    // console.log(response);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -30,7 +29,7 @@ async function fetchTitleAndDescription(url: string) {
     const description = metaDescription
       ? metaDescription.getAttribute("content")
       : "";
-    console.log(title, description);
+    // console.log(title, description);
     return { title, description };
   } catch (error) {
     console.error("Error fetching or parsing content:", error);

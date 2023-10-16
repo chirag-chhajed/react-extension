@@ -40,9 +40,6 @@
             "description": "Opens index.html"
         }
     },
-    "optional_permissions": [
-        "bookmarks"
-    ],
     "permissions": [
         "activeTab",
         "tabs",

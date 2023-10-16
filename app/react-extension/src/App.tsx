@@ -4,16 +4,8 @@
 import { useEffect, useState } from "react";
 import LoginForm from "@/components/LoginForm";
 import Header from "@/components/Header";
-// import SiteCard from "@/components/SiteCard";
-// import SettingDropDown from "@/components/SettingDropDown";
 
-// // UI Components
-// import { Button } from "@/components/ui/button";
-// import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import SearchCommand from "@/components/SearchCommand";
-
-// Icons
-// import { DoorOpen, SettingsIcon } from "lucide-react";
 
 // State Management
 import { atom, useAtom } from "jotai";
@@ -44,7 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "user" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         setUser(response.user);
 
@@ -60,17 +52,17 @@ export default function Home() {
                 photoURL: response.user.photoURL!,
                 user_id: response.user.uid,
               })
-                .then((res) => console.log(res, "User added to document"))
-                .catch((err) => console.log(err));
+                .then((res) => res)
+                .catch((err) => console.error(err));
             } else {
-              console.log("User already exists");
+              // console.log("User already exists");
             }
           })();
         } else {
-          console.log("User is undefined in the response.");
+          // console.log("User is undefined in the response.");
         }
       } else {
-        console.log("Data passage not working");
+        // console.log("Data passage not working");
       }
     });
   }, []);
@@ -78,7 +70,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        console.log(user.uid, "uid");
+        // console.log(user.uid, "uid");
         try {
           const res = query(siteRef, where("user_id", "==", user.uid));
           const querySnapshot = await getDocs(res);
@@ -130,7 +122,7 @@ export default function Home() {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        console.log(sites);
+        // console.log(sites);
 
         setOpen((open) => !open);
       }

@@ -7,12 +7,12 @@ const LoginForm = () => {
 
   const googleLogin = () => {
     chrome.runtime.sendMessage({ action: "googleLogin" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         setUser(response.user);
-        console.log("Data passage working");
+        // console.log("Data passage working");
       } else {
-        console.log("Data passage not working");
+        // console.log("Data passage not working");
       }
     });
   };

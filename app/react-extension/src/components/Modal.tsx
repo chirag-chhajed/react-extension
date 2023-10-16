@@ -17,7 +17,6 @@ const ModalContainer = () => {
 
   const removeStyles = () => {
     const style = document.querySelector(`style[data-id="custom-styles"]`);
-    console.debug("style", style);
     if (style) {
       style.remove();
     }
@@ -48,7 +47,7 @@ const ModalContainer = () => {
 
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "getData" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         setSites(response.sites);
       }
@@ -60,7 +59,6 @@ const ModalContainer = () => {
       defaultOpen
       open={open}
       onOpenChange={(e) => {
-        console.log("state changed of dialog");
         if (e === false) {
           closeDialog();
           const modalContainer = document.getElementById("customModal");

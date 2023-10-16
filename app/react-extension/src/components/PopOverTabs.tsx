@@ -39,18 +39,18 @@ export default function TabsDemo() {
 
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "user" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         setUser(response.user);
         setLoading(false);
       } else {
-        console.log("Data passage not working");
+        // console.log("Data passage not working");
       }
     });
   }, []);
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "getData" }, (response) => {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         setSites(response.sites);
       }
@@ -87,7 +87,7 @@ export default function TabsDemo() {
         .then(() => toast.success("Site added successfully!"))
         .catch(() => toast.error("Error adding site!"));
     } catch (error) {
-      console.error("Error adding site: ", error);
+      console.error(error);
     } finally {
       setDisabled(false);
     }
@@ -116,9 +116,15 @@ export default function TabsDemo() {
   return (
     <Tabs defaultValue="add" className="w-[400px] p-2 max-h-96">
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="add">Add Site</TabsTrigger>
-        <TabsTrigger value="sites">Sites</TabsTrigger>
-        <TabsTrigger value="info">Guide</TabsTrigger>
+        <TabsTrigger className="shadow-sm" value="add">
+          Add Site
+        </TabsTrigger>
+        <TabsTrigger className="shadow-sm" value="sites">
+          Sites
+        </TabsTrigger>
+        <TabsTrigger className="shadow-sm" value="info">
+          Guide
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="add">
         <Card>
