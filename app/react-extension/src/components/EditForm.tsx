@@ -34,6 +34,7 @@ import { toast } from "sonner";
 import { sitesAtom } from "@/App";
 import { useAtom } from "jotai";
 import { siteType } from "@/@types/siteCard";
+import { editFormOpenState } from "./SiteCard";
 
 const SiteSchema = object({
   title: string([
@@ -65,6 +66,7 @@ const EditForm = ({
   const [url_, setUrl] = useState("");
   const [debouncedUrl, setDebouncedUrl] = useState("");
   const [sites, setSites] = useAtom(sitesAtom);
+  const [, setOpen] = useAtom(editFormOpenState);
   const form = useForm({
     defaultValues: {
       title: title,
@@ -115,17 +117,19 @@ const EditForm = ({
   }, [debouncedUrl]);
 
   const onSubmit = async (data: SiteData): Promise<void> => {
+    console.log(data, "edited data");
     try {
+      const finalUrl = debouncedUrl === "https://" ? data.url : debouncedUrl;
       await updateDoc(getDocumentRef("sites", dataId), {
         ...data,
-        url: debouncedUrl,
-        favicon: faviconURL(debouncedUrl),
+        url: finalUrl,
+        favicon: faviconURL(finalUrl),
         updated_at: Timestamp.now(),
       });
       await Dexiedb.updateSite(dataId, {
         ...data,
-        url: debouncedUrl,
-        favicon: faviconURL(debouncedUrl),
+        url: finalUrl,
+        favicon: faviconURL(finalUrl),
         updatedAt: Timestamp.now(),
       });
       const newSites = sites.map((site: siteType) => {
@@ -134,10 +138,10 @@ const EditForm = ({
             id: dataId,
             data: {
               title: data.title,
-              url: debouncedUrl,
+              url: finalUrl,
               description: data.description,
               isPin: data.isPin,
-              favicon: faviconURL(debouncedUrl),
+              favicon: faviconURL(finalUrl),
             },
           };
         }
@@ -146,6 +150,7 @@ const EditForm = ({
       setSites(newSites);
       form.reset();
       toast.success("Site updated");
+      setOpen(false);
     } catch (error) {
       console.error(error);
       toast.error("Error updating site");

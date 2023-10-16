@@ -209,17 +209,39 @@ export default function TabsDemo() {
             />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup heading="Sites">
-                {sites &&
-                  sites.map((site: Site) => (
-                    <SearchCard
-                      key={site.id}
-                      favicon={site.favicon}
-                      title={site.title}
-                      url={site.url}
-                    />
-                  ))}
-              </CommandGroup>
+              {sites.filter((site: Site) => site.isPin).length > 0 && (
+                <CommandGroup heading="Pinned Sites">
+                  {sites &&
+                    sites
+                      .filter((site: Site) => site.isPin)
+                      .map((site: Site) => (
+                        <SearchCard
+                          key={site.id}
+                          favicon={site.favicon}
+                          title={site.title}
+                          url={site.url}
+                          // description={site.description}
+                        />
+                      ))}
+                </CommandGroup>
+              )}
+              {sites.filter((site: Site) => site.isPin === false).length >
+                0 && (
+                <CommandGroup heading="Sites">
+                  {sites &&
+                    sites
+                      .filter((site: Site) => site.isPin === false)
+                      .map((site: Site) => (
+                        <SearchCard
+                          key={site.id}
+                          favicon={site.favicon}
+                          title={site.title}
+                          url={site.url}
+                          // description={site.description}
+                        />
+                      ))}
+                </CommandGroup>
+              )}
             </CommandList>
           </Command>
         </Card>

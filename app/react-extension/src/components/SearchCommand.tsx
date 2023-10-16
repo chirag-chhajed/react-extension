@@ -15,7 +15,6 @@ const SearchCommand = () => {
   const [open, setOpen] = useAtom(commandState);
   const [sites] = useAtom(sitesAtom);
   const [search, setSearch] = useState("");
-  console.log(search, setSearch);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -26,18 +25,39 @@ const SearchCommand = () => {
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Sites">
-          {sites &&
-            sites.map((site: siteType) => (
-              <SearchCard
-                key={site.id}
-                favicon={site.data.favicon}
-                title={site.data.title}
-                url={site.data.url}
-                // description={site.data.description}
-              />
-            ))}
-        </CommandGroup>
+        {sites.filter((site: siteType) => site.data.isPin).length > 0 && (
+          <CommandGroup heading="Pinned Sites">
+            {sites &&
+              sites
+                .filter((site: siteType) => site.data.isPin)
+                .map((site: siteType) => (
+                  <SearchCard
+                    key={site.id}
+                    favicon={site.data.favicon}
+                    title={site.data.title}
+                    url={site.data.url}
+                    // description={site.data.description}
+                  />
+                ))}
+          </CommandGroup>
+        )}
+        {sites.filter((site: siteType) => site.data.isPin === false).length >
+          0 && (
+          <CommandGroup heading="Sites">
+            {sites &&
+              sites
+                .filter((site: siteType) => site.data.isPin === false)
+                .map((site: siteType) => (
+                  <SearchCard
+                    key={site.id}
+                    favicon={site.data.favicon}
+                    title={site.data.title}
+                    url={site.data.url}
+                    // description={site.data.description}
+                  />
+                ))}
+          </CommandGroup>
+        )}
       </CommandList>
       <ul className="flex gap-4 p-3 ml-2 space-x-2 list-none text-foreground">
         <li className="flex items-center justify-center gap-2">

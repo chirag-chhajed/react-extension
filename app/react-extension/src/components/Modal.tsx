@@ -73,18 +73,38 @@ const ModalContainer = () => {
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="sites">
-          {sites &&
-            sites.map((site: Site) => (
-              <SearchCard
-                key={site.id}
-                // description={site.description ?? ""}
-                favicon={site.favicon}
-                title={site.title}
-                url={site.url}
-              />
-            ))}
-        </CommandGroup>
+        {sites.filter((site: Site) => site.isPin).length > 0 && (
+          <CommandGroup heading="Pinned Sites">
+            {sites &&
+              sites
+                .filter((site: Site) => site.isPin)
+                .map((site: Site) => (
+                  <SearchCard
+                    key={site.id}
+                    favicon={site.favicon}
+                    title={site.title}
+                    url={site.url}
+                    // description={site.description}
+                  />
+                ))}
+          </CommandGroup>
+        )}
+        {sites.filter((site: Site) => site.isPin === false).length > 0 && (
+          <CommandGroup heading="Sites">
+            {sites &&
+              sites
+                .filter((site: Site) => site.isPin === false)
+                .map((site: Site) => (
+                  <SearchCard
+                    key={site.id}
+                    favicon={site.favicon}
+                    title={site.title}
+                    url={site.url}
+                    // description={site.description}
+                  />
+                ))}
+          </CommandGroup>
+        )}
       </CommandList>
       <ul className="flex gap-4 p-3 ml-2 space-x-2 list-none text-foreground">
         <li className="flex items-center justify-center gap-2">
