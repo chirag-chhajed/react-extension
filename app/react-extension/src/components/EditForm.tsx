@@ -34,7 +34,7 @@ import { toast } from "sonner";
 import { sitesAtom } from "@/App";
 import { useAtom } from "jotai";
 import { siteType } from "@/@types/siteCard";
-import { editFormOpenState } from "./SiteCard";
+// import { editFormOpenState } from "./SiteCard";
 
 const SiteSchema = object({
   title: string([
@@ -66,7 +66,7 @@ const EditForm = ({
   const [url_, setUrl] = useState("");
   const [debouncedUrl, setDebouncedUrl] = useState("");
   const [sites, setSites] = useAtom(sitesAtom);
-  const [, setOpen] = useAtom(editFormOpenState);
+  // const [, setOpen] = useAtom(editFormOpenState);
   const form = useForm({
     defaultValues: {
       title: title,
@@ -150,7 +150,7 @@ const EditForm = ({
       setSites(newSites);
       form.reset();
       toast.success("Site updated");
-      setOpen(false);
+      // setOpen(false);
     } catch (error) {
       console.error(error);
       toast.error("Error updating site");

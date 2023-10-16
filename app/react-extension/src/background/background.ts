@@ -32,7 +32,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 export const Dexiedb = new SwiftSearchDB();
 
 Dexiedb.version(1).stores({
-  sites: "++id, title,description, url, favicon, createdAt, updatedAt",
+  sites: "++id, title,description,isPin, url, favicon, createdAt, updatedAt",
 });
 
 export const app = initializeApp(firebaseConfig);

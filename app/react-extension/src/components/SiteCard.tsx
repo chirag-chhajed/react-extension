@@ -26,7 +26,7 @@ import { deleteDoc } from "firebase/firestore";
 import { Dexiedb, getDocumentRef } from "@/background/background";
 import EditForm from "./EditForm";
 import { sitesAtom } from "@/App";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { siteType } from "@/@types/siteCard";
 
 interface CardComponentProps {
@@ -38,7 +38,7 @@ interface CardComponentProps {
   isPin: boolean;
 }
 
-export const editFormOpenState = atom(false);
+// export const editFormOpenState = atom(false);
 
 const CardComponent = ({
   dataId,
@@ -49,7 +49,7 @@ const CardComponent = ({
   description,
 }: CardComponentProps) => {
   const [, setSites] = useAtom(sitesAtom);
-  const [open, setOpen] = useAtom(editFormOpenState);
+  // const [open, setOpen] = useAtom(editFormOpenState);
   const deleteingSite = async (documentId: string) => {
     try {
       await deleteDoc(getDocumentRef("sites", documentId));
@@ -115,7 +115,7 @@ const CardComponent = ({
           >
             <TrashIcon />
           </Button>
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog>
             <DialogTrigger asChild>
               <Button size={"icon"}>
                 <Edit3 />
