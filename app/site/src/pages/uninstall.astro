@@ -1,0 +1,27 @@
+---
+import { Image } from "astro:assets";
+import uninstall from "../assets/kya-itna-bura-hoon-mein-maa.jpg";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-32x32.png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="Swift Search: A Chrome extension for lightning-fast, mouse-free website access, complete with search functionality."
+    />
+    <title>Swift Search</title>
+  </head>
+  <body class="grid h-screen place-content-center">
+    <Image
+      class={"w-[clamp(200px,400px,780px)]"}
+      src={uninstall}
+      alt={"uninstall image"}
+      height={720}
+      width={1280}
+    />
+  </body>
+</html>

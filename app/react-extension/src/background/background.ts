@@ -20,6 +20,15 @@ const firebaseConfig = {
   appId: "1:240104267874:web:40a3c410f8edecf9a1713b",
 };
 
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === "install") {
+    chrome.tabs.create({ url: "index.html" });
+    chrome.runtime.setUninstallURL(
+      "https://swift-search.netlify.app/uninstall"
+    );
+  }
+});
+
 export const Dexiedb = new SwiftSearchDB();
 
 Dexiedb.version(1).stores({
