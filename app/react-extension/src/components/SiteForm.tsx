@@ -51,7 +51,7 @@ import { siteType } from "@/@types/siteCard";
 const SiteSchema = object({
   title: string([
     toTrimmed(),
-    minLength(5, "title must have at least 6 characters"),
+    minLength(1, "title must have at least 1 characters"),
   ]),
   url: string([toTrimmed()]),
   description: optional(string([toTrimmed()])),

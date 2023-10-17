@@ -9,6 +9,7 @@ import SearchCommand from "@/components/SearchCommand";
 
 // State Management
 import { atom, useAtom } from "jotai";
+import { dialogStateAtom } from "./components/Header";
 
 // Firebase Authentication
 import { User } from "firebase/auth";
@@ -32,6 +33,7 @@ export default function Home() {
   const [user, setUser] = useAtom(userAuthAtom);
   const [, setOpen] = useAtom(commandState);
   const [sites, setSites] = useAtom(sitesAtom);
+  const [, setDialog] = useAtom(dialogStateAtom);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -140,7 +142,7 @@ export default function Home() {
     <>
       <Header />
 
-      <main className="bg-secondary text-secondary-foreground p-4 lg:px-8 overflow-y-auto w-full h-[100svh]">
+      <main className="w-full h-[calc(100%-72px)] p-4 overflow-y-auto bg-secondary text-secondary-foreground lg:px-8">
         <div className="grid gap-6 overflow-y-scroll max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 auto-rows-fr justify-evenly justify-items-center">
           {sites.length > 0 &&
             sites.map((site: siteType) => (
@@ -162,6 +164,20 @@ export default function Home() {
               .map((_, i) => (
                 <SkeletonCard key={i} />
               ))}
+          </div>
+        )}
+        {sites.length === 0 && (
+          <div className="grid h-full place-content-center justify-items-center gap-y-4">
+            <img src="/Maskgroup.png" alt="" className="w-64 aspect-square" />
+            <h2 className="font-mono font-bold text-primary">
+              Nothing to find here, let's add some sites{" "}
+              <span
+                onClick={() => setDialog(true)}
+                className="underline cursor-pointer"
+              >
+                here
+              </span>
+            </h2>
           </div>
         )}
       </main>

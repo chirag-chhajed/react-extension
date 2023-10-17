@@ -1,7 +1,7 @@
 import { LogOut, MenuIcon, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { commandState, userAuthAtom } from "@/App";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import {
   Dialog,
   DialogContent,
@@ -22,9 +22,12 @@ import {
 import { Dexiedb } from "@/background/background";
 import { toast } from "sonner";
 
+export const dialogStateAtom = atom(false);
 const Header = () => {
   const [, setOpen] = useAtom(commandState);
   const [, setUser] = useAtom(userAuthAtom);
+  const [value, setValue] = useAtom(dialogStateAtom);
+
   const signOut = () => {
     chrome.runtime.sendMessage({ action: "signOut" }, (response) => {
       // console.log(response);
@@ -42,7 +45,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 flex items-center justify-center flex-1 p-6 py-4 bg-primary text-primary-foreground lg:px-8">
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger>
           <Button size={"icon"}>
             <MenuIcon />
           </Button>
@@ -58,7 +61,7 @@ const Header = () => {
       <h1 className="flex-1 text-2xl font-bold text-center md:text-3xl">
         Swift Search
       </h1>
-      <Dialog>
+      <Dialog open={value} onOpenChange={setValue}>
         <DialogTrigger asChild>
           <Button className="mr-4 text-white bg-green-500 hover:bg-green-700/90">
             <Plus className="mr-2" /> Add Site

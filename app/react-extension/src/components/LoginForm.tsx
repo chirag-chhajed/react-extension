@@ -18,7 +18,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container grid h-screen mx-auto md:grid-cols-2">
+    <div className="grid h-screen mx-auto xl:container md:grid-cols-2">
       <div className="items-center justify-center hidden h-full md:flex bg-primary text-primary-foreground ">
         <h1 className="font-mono text-4xl font-bold text-center">
           Swift Search

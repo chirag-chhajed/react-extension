@@ -95,7 +95,10 @@ export default function TabsDemo() {
   if (!user) {
     if (loading) {
       return (
-        <div className="w-[400px] p-4 space-y-4 flex flex-col justify-center items-center">
+        <div
+          aria-label="Loading"
+          className="w-[400px] p-4 space-y-4 flex flex-col justify-center items-center"
+        >
           <Loader2Icon className="animate-spin" />
         </div>
       );
