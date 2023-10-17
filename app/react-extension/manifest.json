@@ -30,14 +30,14 @@
                 "default": "Ctrl+Shift+1",
                 "mac": "Command+Shift+1"
             },
-            "description": "Inject a script on the page"
+            "description": "Opening the search for your sites"
         },
         "open_index": {
             "suggested_key": {
                 "default": "Ctrl+Shift+2",
                 "mac": "Command+Shift+2"
             },
-            "description": "Opens index.html"
+            "description": "Opening Dashboard"
         }
     },
     "permissions": [
