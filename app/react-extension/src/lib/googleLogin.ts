@@ -5,6 +5,7 @@ const getGoogleAuthCredential = () => {
     (resolve, reject) => {
       chrome.identity.getAuthToken({ interactive: true }, (token) => {
         if (chrome.runtime.lastError) {
+          //? If auth doesn't work from getAuthToken api
           try {
             const redirectURL = chrome.identity.getRedirectURL();
             const clientID =
