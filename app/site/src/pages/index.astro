@@ -1,52 +1,18 @@
 ---
 import Container from "@/components/Container.astro";
 import Layout from "@/layouts/Layout.astro";
-import { Image } from "astro:assets";
-import heroImg from "@/assets/logo-1.png";
-// import "../assets/dots.jpg";
+import HeroSection from "@/components/HeroSection.astro";
+import HowToSection from "@/components/HowToSection.astro";
+import FeaturesSection from "@/components/FeaturesSection.astro";
+import FAQsection from "@/components/FAQsection.astro";
 ---
 
 <Layout>
   <Container>
     <div class="flex flex-col min-h-screen px-2 py-3 space-y-4">
-      <h1 class="text-2xl font-bold md:text-3xl">Swift Search</h1>
-      <div
-        class="relative h-[250px] aspect-square mx-auto grid place-content-center"
-      >
-        <div
-          class="absolute -translate-x-1/2 -translate-y-1/2 bg-primary-foreground rounded-full top-1/2 left-1/2 w-[125px] aspect-square blur-2xl"
-        >
-        </div>
-        <Image
-          src={heroImg}
-          alt="logo of the site"
-          height={250}
-          width={250}
-          loading={"eager"}
-          class={"mx-auto absolute z-10 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"}
-        />
-      </div>
-      <a
-        href="#"
-        class="mx-auto text-center border-2 border-green-500 bg-primary css-button-rounded--green text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-        >Get Started</a
-      >
-
-      <div class="space-y-2">
-        <h2 class="text-3xl font-bold">Swift Search</h2>
-        <a
-          class="inline-block p-2 rounded cursor-pointer bg-primary text-primary-foreground"
-          href="https://github.com/chirag-chhajed"
-          target="_blank"
-          rel="external"
-        >
-          Digital Craftsman(Developer)
-        </a>
-      </div>
+      <HeroSection />
       <div class="flex flex-col gap-4">
-        <h3 class="text-2xl underline underline-offset-2">About</h3>
-
-        <article class="space-y-4 indent-4">
+        <article class="space-y-4 text-justify indent-8">
           <p>
             Swift Search is a powerful Chrome extension designed to enhance your
             web browsing experience. Unlike traditional bookmarks, this
@@ -54,56 +20,18 @@ import heroImg from "@/assets/logo-1.png";
             your favorite websites. With Swift Search, you can quickly access
             your saved sites from any web page using a keyboard shortcut.
           </p>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam
-            alias maxime, odio quod consectetur, reiciendis totam temporibus,
-            hic nesciunt veniam sunt unde dolores quis corporis eius vero
-            voluptates officia quae praesentium tempora accusantium? Laboriosam
-            ipsum placeat aut porro adipisci nobis, minima dolor. Ratione
-            voluptatum, ex nesciunt incidunt quaerat beatae sint.
-          </p>
         </article>
       </div>
-      <div class="flex flex-col gap-4">
-        <h3 class="text-2xl underline underline-offset-2">Inspiration</h3>
-
-        <article class="space-y-4 indent-4">
-          <p>
-            Swift Search is a powerful Chrome extension designed to enhance your
-            web browsing experience. Unlike traditional bookmarks, this
-            extension offers a streamlined, mouse-free solution for accessing
-            your favorite websites. With Swift Search, you can quickly access
-            your saved sites from any web page using a keyboard shortcut.
-          </p>
-          <!-- <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam
-            alias maxime, odio quod consectetur, reiciendis totam temporibus,
-            hic nesciunt veniam sunt unde dolores quis corporis eius vero
-            voluptates officia quae praesentium tempora accusantium? Laboriosam
-            ipsum placeat aut porro adipisci nobis, minima dolor. Ratione
-            voluptatum, ex nesciunt incidunt quaerat beatae sint.
-          </p> -->
-        </article>
-      </div>
+      <HowToSection />
+      <FeaturesSection />
+      <FAQsection />
     </div>
+    <p class="py-1 text-sm text-center bg-primary text-primary-foreground">
+      Made by <a
+        class="underline underline-offset-2"
+        target="_blank"
+        href="https://github.com/chirag-chhajed">Chirag</a
+      >
+    </p>
   </Container>
 </Layout>
-
-<style scoped>
-  .css-button-rounded--green {
-    min-width: 130px;
-    height: 40px;
-    /* color: #fff; */
-    padding: 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    outline: none;
-    border-radius: 5px;
-  }
-  .css-button-rounded--green:hover {
-    background: #fff;
-  }
-</style>

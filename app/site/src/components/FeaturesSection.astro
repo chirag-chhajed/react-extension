@@ -1,0 +1,42 @@
+---
+import FeatureCard from "@/components/FeatureCard.tsx";
+const features = [
+  {
+    title: "Mouse free",
+    description:
+      "Swift Search allows quick and easy retrieval of your favorite websites using keyboard shortcuts, without the need for a mouse.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mouse"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>`,
+    bool: true,
+  },
+  {
+    title: "Quick Access",
+    description:
+      " Swift Search ensures lightning-fast access to your favorite websites, saving you valuable time.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    bool: false,
+  },
+  {
+    title: "Accessible",
+    description:
+      "Enjoy seamless access from any web page, ensuring your sites are just a click away.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+    bool: false,
+  },
+  {
+    title: "Ease of Use",
+    description:
+      "Swift Search offers an easier and more intuitive browsing experience, simplifying your online navigation",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg>`,
+    bool: false,
+  },
+];
+---
+
+<div class="flex flex-col gap-4">
+  <h3 id="features" class="text-2xl underline underline-offset-2">Features</h3>
+  <div
+    class="grid grid-cols-1 grid-rows-4 gap-4 sm:grid-cols-2 sm:grid-rows-2 justify-items-center"
+  >
+    {features.map((feature) => <FeatureCard {...feature} />)}
+  </div>
+</div>

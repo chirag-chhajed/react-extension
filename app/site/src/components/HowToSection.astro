@@ -1,0 +1,26 @@
+---
+import HowToCard from "@/components/HowToCard";
+const howToCardsInfo = [
+  {
+    title: "1. Create an Account",
+    description: "Start by making your account with just a few clicks.",
+  },
+  {
+    title: "2. Add Your Favorite Sites",
+    description:
+      "Easily add your favorite websites either directly from the dashboard or through the extension popup.",
+  },
+  {
+    title: "3. Swift Access",
+    description:
+      "Access your handpicked websites at your fingertips with a simple keyboard shortcut, Ctrl + Shift + 1.",
+  },
+];
+---
+
+<div class="flex flex-col gap-4">
+  <h3 id="how_to" class="text-2xl underline underline-offset-2">How to</h3>
+  <div class="flex flex-col gap-4">
+    {howToCardsInfo.map((card) => <HowToCard {...card} />)}
+  </div>
+</div>

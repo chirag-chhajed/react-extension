@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import heroImg from "@/assets/logo-1.png";
+---
+
+<h1 class="text-2xl font-bold md:text-3xl">Swift Search</h1>
+<p>
+  Unlock Lightning-Fast Access to Your Handpicked Websites, all at your
+  fingertips
+</p>
+<div class="relative h-[250px] aspect-square mx-auto grid place-content-center">
+  <div
+    class="absolute -translate-x-1/2 -translate-y-1/2 bg-primary-foreground rounded-full top-1/2 left-1/2 w-[125px] aspect-square blur-2xl"
+  >
+  </div>
+  <Image
+    src={heroImg}
+    alt="logo of the site"
+    height={250}
+    width={250}
+    loading={"eager"}
+    class={"mx-auto absolute z-10 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"}
+  />
+</div>
+<a
+  tabindex={0}
+  id="get_started"
+  href="#"
+  class="p-2 mx-auto text-center border-2 border-green-500 rounded bg-primary css-button-rounded--green text-primary-foreground hover:bg-primary-foreground hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+  >Get Started</a
+>
+
+<style scoped>
+  .css-button-rounded--green {
+    min-width: 130px;
+    height: 40px;
+    /* color: #fff; */
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+  }
+  .css-button-rounded--green:hover {
+    background: #fff;
+  }
+</style>
