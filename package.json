@@ -6,7 +6,8 @@
   "scripts": {
     "build:extension": "pnpm --filter=react-extension build",
     "build:site": "pnpm --filter=site build",
-    "dev": "pnpm --filter=site dev"
+    "dev": "pnpm --filter=site dev",
+    "preview": "pnpm --filter=site preview"
   },
   "keywords": [],
   "author": "",

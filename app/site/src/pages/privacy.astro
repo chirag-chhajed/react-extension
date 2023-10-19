@@ -1,82 +1,74 @@
 ---
-
+import Container from "@/components/Container.astro";
+import Layout from "@/layouts/Layout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-32x32.png" />
-    <meta
-      name="description"
-      content="Swift Search: A Chrome extension for lightning-fast, mouse-free website access, complete with search functionality."
-    />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy - Swift Search</title>
-  </head>
-  <body class="container py-4">
-    <h1 class="mb-4 text-4xl font-bold">Privacy Policy</h1>
-    <p class="mb-4">
-      Swift Search values your privacy and is committed to protecting your
-      personal information. This privacy policy explains how we handle and use
-      data collected from your Google authentication.
-    </p>
+<Layout>
+  <Container>
+    <div class="container py-4">
+      <h1 class="mb-4 text-4xl font-bold">Privacy Policy</h1>
+      <p class="mb-4">
+        Swift Search values your privacy and is committed to protecting your
+        personal information. This privacy policy explains how we handle and use
+        data collected from your Google authentication.
+      </p>
 
-    <h2 class="mb-2 text-2xl font-bold">1. Data Collection</h2>
-    <p class="mb-4">
-      When you use Swift Search, you may choose to log in using Google Auth.
-      Google Auth provides us with the following information:
-    </p>
-    <ul class="pl-5 mb-4 list-disc">
-      <li>Your email address</li>
-      <li>Your name</li>
-    </ul>
+      <h2 class="mb-2 text-2xl font-bold">1. Data Collection</h2>
+      <p class="mb-4">
+        When you use Swift Search, you may choose to log in using Google Auth.
+        Google Auth provides us with the following information:
+      </p>
+      <ul class="pl-5 mb-4 list-disc">
+        <li>Your email address</li>
+        <li>Your name</li>
+      </ul>
 
-    <h2 class="mb-2 text-2xl font-bold">2. Data Uage</h2>
-    <p class="mb-4">
-      We want to assure you that we do not sell, share, or use this data for any
-      purposes other than what is explicitly stated here. Your email address and
-      name provided through Google Auth are used exclusively for the following
-      purposes:
-    </p>
-    <ul class="pl-5 mb-4 list-disc">
-      <li>
-        <span class="font-bold">Your email address</span> To verify your
-        identity and provide access to your personalized settings and saved
-        sites.
-      </li>
-      <li>
-        <span class="font-bold">Your name</span>To enhance your experience with
-        Swift Search, including personalizing features and content to better
-        suit your needs.
-      </li>
-    </ul>
-    <h2 class="mb-2 text-2xl font-bold">3. Data Protection</h2>
-    <p class="mb-4">
-      We take your privacy and data security seriously. We have implemented
-      robust security measures to protect your information from unauthorized
-      access, disclosure, or misuse. Your data is stored securely and treated
-      with the utmost care.
-    </p>
+      <h2 class="mb-2 text-2xl font-bold">2. Data Uage</h2>
+      <p class="mb-4">
+        We want to assure you that we do not sell, share, or use this data for
+        any purposes other than what is explicitly stated here. Your email
+        address and name provided through Google Auth are used exclusively for
+        the following purposes:
+      </p>
+      <ul class="pl-5 mb-4 list-disc">
+        <li>
+          <span class="font-bold">Your email address</span> To verify your
+          identity and provide access to your personalized settings and saved
+          sites.
+        </li>
+        <li>
+          <span class="font-bold">Your name</span>To enhance your experience
+          with Swift Search, including personalizing features and content to
+          better suit your needs.
+        </li>
+      </ul>
+      <h2 class="mb-2 text-2xl font-bold">3. Data Protection</h2>
+      <p class="mb-4">
+        We take your privacy and data security seriously. We have implemented
+        robust security measures to protect your information from unauthorized
+        access, disclosure, or misuse. Your data is stored securely and treated
+        with the utmost care.
+      </p>
 
-    <h2 class="mb-2 text-2xl font-bold">4. Data Retention</h2>
-    <p>
-      We retain your email address and name for as long as it is necessary to
-      fulfill the purposes outlined in this privacy policy. You may request the
-      deletion of your data at any time, and we will promptly comply with your
-      request.
-    </p>
-    <h2 class="mb-2 text-2xl font-bold">5. Updates and Changes</h2>
-    <p>
-      We may update this privacy policy from time to time. Any changes will be
-      posted on our website, and we encourage you to review it periodically.
-    </p>
-    <h2 class="mb-2 text-2xl font-bold">6. Contact Us</h2>
-    <p>
-      If you have any questions, concerns, or requests regarding your data or
-      this privacy policy, please don't hesitate to contact us at <a
-        href="mailto:chirag18@duck.com">chirag18@duck.com</a
-      >
-    </p>
-  </body>
-</html>
+      <h2 class="mb-2 text-2xl font-bold">4. Data Retention</h2>
+      <p>
+        We retain your email address and name for as long as it is necessary to
+        fulfill the purposes outlined in this privacy policy. You may request
+        the deletion of your data at any time, and we will promptly comply with
+        your request.
+      </p>
+      <h2 class="mb-2 text-2xl font-bold">5. Updates and Changes</h2>
+      <p>
+        We may update this privacy policy from time to time. Any changes will be
+        posted on our website, and we encourage you to review it periodically.
+      </p>
+      <h2 class="mb-2 text-2xl font-bold">6. Contact Us</h2>
+      <p>
+        If you have any questions, concerns, or requests regarding your data or
+        this privacy policy, please don't hesitate to contact us at <a
+          href="mailto:chirag18@duck.com">chirag18@duck.com</a
+        >
+      </p>
+    </div>
+  </Container>
+</Layout>
