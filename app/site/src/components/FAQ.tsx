@@ -25,8 +25,7 @@ const faq = [
   },
   {
     question: "Can I customize the keyboard shortcuts?",
-    answer:
-      'Yes, you can! In most cases, you can customize the keyboard shortcuts according to your preferences. Simply go to chrome://extensions or your browser&#39;s specific extension settings page. Look for the "keyboard shortcuts" section, and there you can personalize the shortcuts to better suit your needs.',
+    answer: `Yes, you can! In most cases, you can customize the keyboard shortcuts according to your preferences. Simply go to chrome://extensions or your browser's specific extension settings page. Look for the "keyboard shortcuts" section, and there you can personalize the shortcuts to better suit your needs.`,
   },
 ];
 

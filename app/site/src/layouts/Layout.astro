@@ -2,21 +2,26 @@
 import { SEO } from "astro-seo";
 import "@/styles/globals.css";
 import "@fontsource-variable/jetbrains-mono";
-
-// import "../styles/globals.css";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon-32x32.png" />
-    <meta name="generator" content={Astro.generator} />
     <SEO
       title="Swift Search"
       description="Swift Search: A Chrome extension for lightning-fast, mouse-free website access, complete with search functionality."
+      openGraph={{
+        basic: {
+          title: "Swift Search",
+          image:
+            "https://res.cloudinary.com/dz04dxsi9/image/upload/v1697801007/ioyyrgkhav5p8onc0kw6.jpg",
+          url: "https://swift-search.netlify.app/",
+          type: "website",
+        },
+      }}
     />
   </head>
   <body class="bg-secondary text-secondary-foreground">
@@ -53,6 +58,15 @@ import "@fontsource-variable/jetbrains-mono";
           );
         background-size: 55px 55px;
       }
+      /* body {
+        background-color: #f4f4f5;
+        opacity: 0.9;
+        background-image: radial-gradient(
+          #727272 1.1500000000000001px,
+          #f4f4f5 1.1500000000000001px
+        );
+        background-size: 23px 23px;
+      } */
     </style>
   </body>
 </html>

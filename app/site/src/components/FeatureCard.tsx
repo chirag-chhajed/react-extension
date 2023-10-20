@@ -4,8 +4,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MouseIcon, type LucideIcon } from "lucide-react";
-
 import React from "react";
 
 interface FeatureCardProps {
@@ -25,8 +23,6 @@ const FeatureCard = ({ title, icon, description, bool }: FeatureCardProps) => {
               <div className="absolute w-1 h-12 rotate-45 -translate-x-1/2 -translate-y-1/2 bg-destructive overflow-clip top-1/2 left-1/2"></div>
             )}
             <div dangerouslySetInnerHTML={{ __html: icon }} />
-            {/* <MouseIcon className="w-9 h-9 " /> */}
-            {/* {icon} */}
           </div>
           <div className="h-12 text-left line-clamp-2">{title}</div>
         </CardTitle>
