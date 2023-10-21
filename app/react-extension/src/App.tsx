@@ -168,7 +168,7 @@ export default function Home() {
         )}
         {sites.length === 0 && (
           <div className="grid h-full place-content-center justify-items-center gap-y-4">
-            <img src="/Maskgroup.png" alt="" className="w-64 aspect-square" />
+            <img src="/266.png" alt="" className="w-64 aspect-square" />
             <h2 className="font-mono font-bold text-primary">
               Nothing to find here, let's add some sites{" "}
               <span
