@@ -1,4 +1,4 @@
-import { Auth, createUserWithEmailAndPassword } from "firebase/auth";
+import { type Auth, createUserWithEmailAndPassword } from "firebase/auth";
 
 async function createUser(auth: Auth, email: string, password: string) {
   try {

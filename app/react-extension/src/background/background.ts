@@ -12,12 +12,12 @@ import { getGoogleAuthCredential } from "@/lib/googleLogin";
 import { SwiftSearchDB } from "@/lib/SwiftSearchDB";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC-GlX_NJEBnfcJm9v0bjk4Nt8trG_0QDg",
-  authDomain: "swift-search-chrome-extension.firebaseapp.com",
-  projectId: "swift-search-chrome-extension",
-  storageBucket: "swift-search-chrome-extension.appspot.com",
-  messagingSenderId: "240104267874",
-  appId: "1:240104267874:web:40a3c410f8edecf9a1713b",
+  apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECTID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APPID,
 };
 
 chrome.runtime.onInstalled.addListener((details) => {
