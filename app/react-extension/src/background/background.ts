@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   signInWithCredential,
   signOut,
-} from "firebase/auth";
+} from "firebase/auth/web-extension";
 import { createUser } from "@/lib/createUser";
 import { getGoogleAuthCredential } from "@/lib/googleLogin";
 import { SwiftSearchDB } from "@/lib/SwiftSearchDB";

@@ -10,6 +10,5 @@
     "preview": "pnpm --filter=site preview"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": ""
 }

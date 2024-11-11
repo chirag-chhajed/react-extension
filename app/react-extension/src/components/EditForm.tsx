@@ -1,17 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import {
-  object,
-  string,
-  boolean,
-  minLength,
-  url as valibotUrl,
-  safeParse,
-  Output,
-  optional,
-  toTrimmed,
-} from "valibot";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   Form,
@@ -33,28 +22,26 @@ import { Dexiedb, getDocumentRef } from "@/background/background";
 import { toast } from "sonner";
 import { sitesAtom } from "@/App";
 import { useAtom } from "jotai";
-import { siteType } from "@/@types/siteCard";
+import type { siteType } from "@types/siteCard";
 // import { editFormOpenState } from "./SiteCard";
+import * as z from "zod";
 
-const SiteSchema = object({
-  title: string([
-    toTrimmed(),
-    minLength(5, "title must have at least 6 characters"),
-  ]),
-  url: string([toTrimmed()]),
-  description: optional(string([toTrimmed()])),
-  isPin: boolean(),
+const SiteSchema = z.object({
+  title: z.string().trim().min(1, "title must have at least 1 characters"),
+  url: z.string().trim(),
+  description: z.string().optional(),
+  isPin: z.boolean(),
 });
 
-interface EditFormProps {
+type EditFormProps = {
   dataId: string;
   url: string;
   title: string;
   description: string;
   isPin: boolean;
-}
+};
 
-type SiteData = Output<typeof SiteSchema>;
+type SiteData = z.infer<typeof SiteSchema>;
 
 const EditForm = ({
   dataId,
@@ -74,7 +61,7 @@ const EditForm = ({
       description: description,
       isPin: isPin,
     },
-    resolver: valibotResolver(SiteSchema),
+    resolver: zodResolver(SiteSchema),
   });
 
   useEffect(() => {
@@ -92,13 +79,14 @@ const EditForm = ({
     }, 1000);
   }, [url_]);
 
-  const valildation = string([valibotUrl("not a valid url")]);
+  // const valildation = string([valibotUrl("not a valid url")]);
+  const zodValidtion = z.string().url("not a valid url");
 
   useEffect(() => {
     const debouncedTimeout = setTimeout(() => {
       if (debouncedUrl) {
         try {
-          const result = safeParse(valildation, debouncedUrl);
+          const result = zodValidtion.safeParse(debouncedUrl);
           // console.log(result);
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);

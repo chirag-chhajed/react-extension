@@ -12,9 +12,9 @@ import { atom, useAtom } from "jotai";
 import { dialogStateAtom } from "./components/Header";
 
 // Firebase Authentication
-import { User } from "firebase/auth";
+import type { User } from "firebase/auth/web-extension";
 import {
-  DocumentData,
+  type DocumentData,
   addDoc,
   getDocs,
   query,
@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 import { Dexiedb, siteRef, userRef } from "@/background/background";
 import CardComponent from "./components/SiteCard";
-import { siteType } from "@/@types/siteCard";
+import type { siteType } from "@/@types/siteCard";
 import SkeletonCard from "./components/SkeletonCard";
 
 export const userAuthAtom = atom<User | null>(null);

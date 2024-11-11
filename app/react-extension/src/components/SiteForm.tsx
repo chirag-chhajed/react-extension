@@ -4,18 +4,8 @@ import { useEffect, useState } from "react";
 
 // Form and Form Validation
 import { useForm } from "react-hook-form";
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import {
-  object,
-  string,
-  boolean,
-  minLength,
-  url as valibotUrl,
-  safeParse,
-  Output,
-  optional,
-  toTrimmed,
-} from "valibot";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 // UI Components
 import {
@@ -41,24 +31,29 @@ import { fetchTitleAndDescription } from "@/lib/fetchTitleAndDescription";
 import { faviconURL } from "@/lib/getFaviconUrl";
 
 // Authentication and State Management
-import { userAuthAtom } from "@/App";
+import { userAuthAtom, sitesAtom } from "@/App";
 
 // Analytics and Firestore
 import { Dexiedb, siteRef } from "@/background/background";
-import { sitesAtom } from "@/App";
-import { siteType } from "@/@types/siteCard";
+import type { siteType } from "@/@types/siteCard";
 
-const SiteSchema = object({
-  title: string([
-    toTrimmed(),
-    minLength(1, "title must have at least 1 characters"),
-  ]),
-  url: string([toTrimmed()]),
-  description: optional(string([toTrimmed()])),
-  isPin: boolean(),
+const SiteSchema = z.object({
+  title: z.string().trim().min(1, "title must have at least 1 characters"),
+  url: z.string().trim(),
+  description: z.string().optional(),
+  isPin: z.boolean(),
 });
+// const SiteSchema = object({
+//   title: string([
+//     toTrimmed(),
+//     minLength(1, "title must have at least 1 characters"),
+//   ]),
+//   url: string([toTrimmed()]),
+//   description: optional(string([toTrimmed()])),
+//   isPin: boolean(),
+// });
 
-type SiteData = Output<typeof SiteSchema>;
+type SiteData = z.infer<typeof SiteSchema>;
 
 const SiteForm = () => {
   const [url, setUrl] = useState("");
@@ -73,7 +68,7 @@ const SiteForm = () => {
       description: "",
       isPin: false,
     },
-    resolver: valibotResolver(SiteSchema),
+    resolver: zodResolver(SiteSchema),
   });
 
   useEffect(() => {
@@ -91,22 +86,22 @@ const SiteForm = () => {
     }, 1000);
   }, [url]);
 
-  const valildation = string([valibotUrl("not a valid url")]);
+  const zodValidtion = z.string().url("not a valid url");
 
   useEffect(() => {
     const debouncedTimeout = setTimeout(() => {
       if (debouncedUrl) {
         try {
-          const result = safeParse(valildation, debouncedUrl);
+          const result = zodValidtion.safeParse(debouncedUrl);
           if (result.success) {
             const response = fetchTitleAndDescription(debouncedUrl);
             response.then((res) => {
               const title = form.getValues("title");
               const description = form.getValues("description");
-              form.setValue("title", title + " " + res.title ?? "");
+              form.setValue("title", `${title} ${res.title}` ?? "");
               form.setValue(
                 "description",
-                description + " " + res.description ?? ""
+                `${description} ${res.description}` ?? ""
               );
             });
           }

@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { crx } from "@crxjs/vite-plugin";
 import manifest from "./manifest.json";
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), crx({ manifest })],
   build: {

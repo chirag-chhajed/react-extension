@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/command";
 import { useEffect, useState } from "react";
 import SearchCard from "./SearchCard";
-import { Site } from "@/lib/SwiftSearchDB";
+import type { Site } from "@/lib/SwiftSearchDB";
 
 const ModalContainer = () => {
   const [open, setIsOpen] = useState(true);
@@ -73,34 +73,32 @@ const ModalContainer = () => {
         <CommandEmpty>No results found.</CommandEmpty>
         {sites.filter((site: Site) => site.isPin).length > 0 && (
           <CommandGroup heading="Pinned Sites">
-            {sites &&
-              sites
-                .filter((site: Site) => site.isPin)
-                .map((site: Site) => (
-                  <SearchCard
-                    key={site.id}
-                    favicon={site.favicon}
-                    title={site.title}
-                    url={site.url}
-                    // description={site.description}
-                  />
-                ))}
+            {sites
+              ?.filter((site: Site) => site.isPin)
+              .map((site: Site) => (
+                <SearchCard
+                  key={site.id}
+                  favicon={site.favicon}
+                  title={site.title}
+                  url={site.url}
+                  // description={site.description}
+                />
+              ))}
           </CommandGroup>
         )}
         {sites.filter((site: Site) => site.isPin === false).length > 0 && (
           <CommandGroup heading="Sites">
-            {sites &&
-              sites
-                .filter((site: Site) => site.isPin === false)
-                .map((site: Site) => (
-                  <SearchCard
-                    key={site.id}
-                    favicon={site.favicon}
-                    title={site.title}
-                    url={site.url}
-                    // description={site.description}
-                  />
-                ))}
+            {sites
+              ?.filter((site: Site) => site.isPin === false)
+              .map((site: Site) => (
+                <SearchCard
+                  key={site.id}
+                  favicon={site.favicon}
+                  title={site.title}
+                  url={site.url}
+                  // description={site.description}
+                />
+              ))}
           </CommandGroup>
         )}
       </CommandList>

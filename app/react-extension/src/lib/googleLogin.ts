@@ -1,4 +1,4 @@
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth/web-extension";
 
 const getGoogleAuthCredential = () => {
   return new Promise<ReturnType<typeof GoogleAuthProvider.credential>>(

@@ -16,8 +16,8 @@ import { Timestamp, addDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { atom, useAtom } from "jotai";
-import { User } from "firebase/auth";
-import { Site } from "@/lib/SwiftSearchDB";
+import type { User } from "firebase/auth/web-extension";
+import type { Site } from "@/lib/SwiftSearchDB";
 import {
   Command,
   CommandEmpty,
