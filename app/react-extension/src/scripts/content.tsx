@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import ModalContainer from "@/components/Modal";
 import styles from "../index.css?inline";
 
-console.log("Hey I am running from a chrome extension, do you know it");
+// console.log("Hey I am running from a chrome extension, do you know it");
 
 function createModal() {
   let modalContainer = document.getElementById("customModal");
